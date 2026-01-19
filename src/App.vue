@@ -293,10 +293,7 @@ onMounted(() => {
           </div>
 
           <div class="about-stats">
-            <div class="stat-card">
-              <span class="stat-number">7º</span>
-              <span class="stat-label">Ciclo Actual</span>
-            </div>
+            
             <div class="stat-card">
               <span class="stat-number">7+</span>
               <span class="stat-label">Años de Experiencia</span>
