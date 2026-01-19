@@ -13,6 +13,17 @@ import imgPormedioFacil from './assets/proyectoPROMEDIOFACIL.JPG'
 import imgProfile from './assets/mifotocara.JPG'
 
 const isLoading = ref(true)
+const isMenuOpen = ref(false)
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+  document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
+}
+
+const closeMenu = () => {
+  isMenuOpen.value = false
+  document.body.style.overflow = ''
+}
 const skillCategories = [
   {
     title: 'Frontend Development',
@@ -193,15 +204,22 @@ onMounted(() => {
       :style="{ transform: `translate3d(${glowX}px, ${glowY}px, 0)` }"
     ></div>
 
-    <header class="navbar">
+    <header class="navbar" :class="{ 'menu-open': isMenuOpen }">
       <div class="logo">CFQY</div>
-      <nav>
-        <a href="#hero">Inicio</a>
-        <a href="#about">Sobre Mí</a>
-        <a href="#timeline">Trayectoria</a>
-        <a href="#skills">Habilidades</a>
-        <a href="#projects">Proyectos</a>
-        <a href="#contact">Contacto</a>
+      
+      <button class="menu-toggle" @click="toggleMenu" :aria-label="isMenuOpen ? 'Cerrar menú' : 'Abrir menú'">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <nav :class="{ 'active': isMenuOpen }">
+        <a href="#hero" @click="closeMenu">Inicio</a>
+        <a href="#about" @click="closeMenu">Sobre Mí</a>
+        <a href="#timeline" @click="closeMenu">Trayectoria</a>
+        <a href="#skills" @click="closeMenu">Habilidades</a>
+        <a href="#projects" @click="closeMenu">Proyectos</a>
+        <a href="#contact" @click="closeMenu">Contacto</a>
       </nav>
     </header>
 
@@ -411,6 +429,33 @@ onMounted(() => {
   max-width: 1100px;
   width: 100%;
   margin: 0 auto;
+}
+
+@media (max-width: 968px) {
+  .hero {
+    height: auto;
+    padding: 120px 5% 60px;
+  }
+  
+  .profile-layout {
+    flex-direction: column-reverse;
+    text-align: center !important;
+    gap: 3rem;
+  }
+  
+  .hero-text {
+    flex: 1;
+  }
+  
+  .hero-image {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .cta-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .hero-text {
