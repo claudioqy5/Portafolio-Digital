@@ -67,6 +67,7 @@ body::before {
     letter-spacing: 2px;
     color: var(--primary);
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 nav a {

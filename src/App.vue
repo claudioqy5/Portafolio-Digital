@@ -205,7 +205,8 @@ onMounted(() => {
     ></div>
 
     <header class="navbar" :class="{ 'menu-open': isMenuOpen }">
-      <div class="logo">CFQY</div>
+      
+      <a href="#hero" class="logo" @click="closeMenu">CFQY</a>
       
       <button class="menu-toggle" @click="toggleMenu" :aria-label="isMenuOpen ? 'Cerrar menú' : 'Abrir menú'">
         <span class="bar"></span>
