@@ -39,7 +39,7 @@ const handleMouseLeave = () => {
     <div class="project-image">
       <img :src="project.image" :alt="project.title">
       <div class="project-overlay">
-        <button class="btn btn-small">Explorar Proyecto</button>
+        <a :href="project.link" target="_blank" class="btn btn-small">Explorar Proyecto</a>
       </div>
     </div>
     <div class="project-info">

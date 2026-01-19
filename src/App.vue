@@ -5,7 +5,11 @@ import ProjectCard from './components/ProjectCard.vue'
 import CustomCursor from './components/CustomCursor.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import AnimatedBackground from './components/AnimatedBackground.vue'
+
 import imgProjectEricka from './assets/proyectoERICKA.JPG'
+import imgProjectColegioX from './assets/proyectoCOLEGIOX.JPG'
+import imgPormedioFacil from './assets/proyectoPROMEDIOFACIL.JPG'
+
 import imgProfile from './assets/mifotocara.JPG'
 
 const isLoading = ref(true)
@@ -124,31 +128,30 @@ const projects = [
     description: 'Página web corporativa de catering y eventos que presenta de forma clara los servicios gastronómicos y de organización de eventos, con un diseño moderno orientado a promocionar la marca, generar confianza y facilitar el contacto con clientes.',
     image: imgProjectEricka,
     techStack: [
-      { name: 'Vue', level: 100 },
+      { name: 'Vite', level: 100 },
       { name: 'Javascript', level: 80 },
       { name: 'HTML5/CSS3', level: 85 }
     ],
-    link: '#'
+    link: 'https://erickacateringeventos.vercel.app/'
   },
   {
-    title: 'Monitor Académico Neural',
-    description: 'Estudio anatómico del progreso estudiantil mediante algoritmos que emulan la interconectividad cerebral.',
-    image: 'C:/Users/ADMIN/.gemini/antigravity/brain/52ddfb4f-36f8-4d21-ac6e-46541cc6693a/davinci_academic_brain_1768789265953.png',
+    title: 'Institución Educativa Privada María Auxiliadora',
+    description: 'Intranet Educativa orientada a la gestión académica y administrativa de un colegio. El sistema incluye control de acceso por roles para alumnos, profesores, secretarios y administradores, permitiendo la gestión de usuarios, cursos, calificaciones y comunicaciones internas a través de una interfaz moderna y segura.',
+    image: imgProjectColegioX,
     techStack: [
-      { name: 'Next.js', level: 80 },
-      { name: 'IA', level: 65 },
-      { name: 'Firebase', level: 85 }
+      { name: 'Vue.js', level: 100 },
+      { name: '.NET', level: 90 },
+      { name: 'SQL server', level: 100 }
     ],
-    link: '#'
+    link: 'https://colegiox.vercel.app/'
   },
   {
-    title: 'Celestial Carrier E-commerce',
-    description: 'Sistema de distribución logística inspirado en las máquinas voladoras de Leonardo para mercados digitales.',
-    image: 'C:/Users/ADMIN/.gemini/antigravity/brain/52ddfb4f-36f8-4d21-ac6e-46541cc6693a/davinci_ecommerce_delivery_1768789287643.png',
+    title: 'Promedio FACIL',
+    description: 'Esta herramienta permite que los estudiantes puedan registrar sus notas, configurar los pesos de cada evaluación y calcular su promedio ponderado de manera precisa, además de proyectar cuánto necesitan obtener en futuras evaluaciones para alcanzar sus metas. Este informe detalla todo el proceso de desarrollo del proyecto, desde la definición del problema hasta la construcción, prueba y validación del sistema móvil.',
+    image: imgPormedioFacil,
     techStack: [
-      { name: 'TypeScript', level: 95 },
-      { name: 'Stripe', level: 70 },
-      { name: 'Vue', level: 90 }
+      { name: 'Android Studio', level: 80 },
+      { name: 'Kotlin', level: 70 }
     ],
     link: '#'
   }
@@ -314,34 +317,50 @@ onMounted(() => {
         </div>
       </section>
 
-      <section class="section">
-        <div id="contact" class="container">
+      <section id="contact" class="section">
+        <div class="container">
           <div class="contact-card">
-            <span class="contact-badge">¿Listo para innovar?</span>
-            <h2>Trabajemos juntos</h2>
-            <p>Estoy listo para aportar con análisis, desarrollo y automatización de soluciones, combinando experiencia administrativa y formación en Ingeniería Informática.
-Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</p>
-            <div v-if="formSubmitted" class="success-message">
-              <div class="success-icon">✨</div>
-              <h3>¡Mensaje Enviado!</h3>
-              <p>Gracias por contactarme, claudio. Te responderé lo antes posible.</p>
-              <button @click="formSubmitted = false" class="btn btn-secondary">Enviar otro mensaje</button>
+            <div class="contact-grid">
+              <div class="contact-info">
+                <span class="contact-badge">¿Listo para innovar?</span>
+                <h2>Trabajemos juntos</h2>
+                <p>Estoy listo para aportar con análisis, desarrollo y automatización de soluciones, combinando experiencia administrativa y formación en Ingeniería Informática. Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</p>
+                <div class="contact-methods">
+                  <div class="method-item">
+                    <span class="method-icon">📍</span>
+                    <span>Lima, Perú</span>
+                  </div>
+                  <div class="method-item">
+                    <span class="method-icon">📧</span>
+                    <span>claudioquello5@gmail.com</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-form-wrapper">
+                <div v-if="formSubmitted" class="success-message">
+                  <div class="success-icon">✨</div>
+                  <h3>¡Mensaje Enviado!</h3>
+                  <p>Gracias por contactarme, claudio. Te responderé lo antes posible.</p>
+                  <button @click="formSubmitted = false" class="btn btn-secondary">Enviar otro mensaje</button>
+                </div>
+                
+                <form v-else class="contact-form" @submit.prevent="handleFormSubmit">
+                  <div class="form-group">
+                    <input type="text" name="name" v-model="formData.name" placeholder="Tu Nombre" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="email" name="email" v-model="formData.email" placeholder="Tu Correo Electrónico" required>
+                  </div>
+                  <div class="form-group">
+                    <textarea name="message" v-model="formData.message" placeholder="Tu Mensaje" rows="5" required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+                    {{ isSubmitting ? 'Enviando...' : 'Enviar Mensaje' }}
+                  </button>
+                </form>
+              </div>
             </div>
-            
-            <form v-else class="contact-form" @submit.prevent="handleFormSubmit">
-              <div class="form-group">
-                <input type="text" name="name" v-model="formData.name" placeholder="Tu Nombre" required>
-              </div>
-              <div class="form-group">
-                <input type="email" name="email" v-model="formData.email" placeholder="Tu Correo Electrónico" required>
-              </div>
-              <div class="form-group">
-                <textarea name="message" v-model="formData.message" placeholder="Tu Mensaje" rows="5" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-                {{ isSubmitting ? 'Enviando...' : 'Enviar Mensaje' }}
-              </button>
-            </form>
           </div>
         </div>
       </section>
@@ -648,12 +667,61 @@ Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</
 }
 
 .contact-card {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
-  padding: 8rem 2rem;
+  background: var(--bg-card);
+  padding: 5rem;
   border-radius: 48px;
-  text-align: center;
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.contact-info h2 {
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.1;
+}
+
+.contact-info p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.method-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.method-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form-wrapper {
+  width: 100%;
 }
 
 .contact-badge {
@@ -750,14 +818,15 @@ Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
 }
 
-.contact-card h2 {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
+.contact-form {
+  margin-top: 0;
+  max-width: 100%;
 }
 
-@media (max-width: 768px) {
-  .contact-card h2 { font-size: 2.2rem; }
-  .cta-group { flex-direction: column; width: 100%; }
+@media (max-width: 968px) {
+  .contact-card { padding: 3rem 2rem; }
+  .contact-grid { grid-template-columns: 1fr; gap: 4rem; }
+  .contact-info h2 { font-size: 2.8rem; }
 }
 
 .footer {
