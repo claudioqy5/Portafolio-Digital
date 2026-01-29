@@ -414,7 +414,7 @@ onMounted(() => {
     <footer class="footer">
       <div class="container">
         <div class="footer-bottom">
-          <p>&copy; 2024 Claudio Fernando Quello Yapu. Developer Portfolio.</p>
+          <p>&copy; 2026 Claudio Quello. Developer Portfolio.</p>
           <div class="social-links">
             <span class="typing-text">System Status: Optimal</span>
           </div>
