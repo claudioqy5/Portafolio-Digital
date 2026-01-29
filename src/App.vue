@@ -839,10 +839,45 @@ onMounted(() => {
     gap: 0.8rem;
   }
   .feature-tag {
-    animation-name: tagReveal !important; /* Disable float on mobile for stability */
+    animation-name: tagReveal !important;
     border-radius: 12px;
     font-size: 0.8rem;
     padding: 0.8rem;
+  }
+}
+
+/* Mobile-only specific fix for "Sobre Mí" alignment */
+@media (max-width: 768px) {
+  #about .container {
+    padding: 0 7%; /* Force equal horizontal spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .intro-text p {
+    width: 100%;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .intro-features {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    gap: 0.7rem;
+  }
+
+  .feature-tag {
+    width: 100%;
+    margin: 0;
   }
 }
 
