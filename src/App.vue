@@ -112,7 +112,7 @@ const timelineEvents = [
     period: '2022 – Actualidad',
     title: 'Ingeniería Informática',
     organization: 'Universidad Ricardo Palma',
-    description: 'Estudiante de 7mo ciclo. Enfocado en análisis de sistemas, desarrollo de software eficiente y código limpio.',
+    description: 'Estudiante del 8vo ciclo. Enfocado en análisis de sistemas, desarrollo de software eficiente y código limpio.',
     type: 'education'
   },
   {
@@ -245,7 +245,10 @@ onMounted(() => {
                 >{{ char }}</span>
               </span>
             </h1>
-            <p class="subtitle">Ingeniero Informático en formación, apasionado por crear soluciones tecnológicas innovadoras y experiencias digitales excepcionales.</p>
+            <p class="subtitle">
+  Ingeniero Informático en formación, enfocado en crear soluciones tecnológicas innovadoras y aplicar inteligencia artificial para resolver problemas reales.
+</p> 
+
             <div class="cta-group">
               <a href="https://github.com" target="_blank" class="btn btn-github">
                 <span class="btn-icon">🐙</span> GitHub
