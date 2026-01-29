@@ -38,6 +38,7 @@ const handleMouseLeave = () => {
   >
     <div class="project-image">
       <img :src="project.image" :alt="project.title">
+      <div class="glitch-overlay"></div>
       <div class="project-overlay">
         <a :href="project.link" target="_blank" class="btn btn-small">Explorar Proyecto</a>
       </div>
@@ -116,6 +117,35 @@ const handleMouseLeave = () => {
   transform: translateY(0);
 }
 
+.glitch-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .glitch-overlay {
+  opacity: 1;
+  animation: scanlines 0.2s linear infinite;
+}
+
+@keyframes scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
 .project-info {
   padding: 2rem;
   transform: translateZ(20px);
@@ -134,7 +164,9 @@ p {
   color: var(--text-muted);
   font-size: 1rem;
   margin-bottom: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .tech-bars {

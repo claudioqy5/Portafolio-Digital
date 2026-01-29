@@ -17,7 +17,12 @@ const getIconColor = (index) => {
       <h3>{{ title }}</h3>
     </div>
     <div class="skills-grid">
-      <div v-for="(skill, index) in skills" :key="skill.name" class="skill-item">
+      <div 
+        v-for="(skill, index) in skills" 
+        :key="skill.name" 
+        class="skill-item"
+        :style="{ '--d': (index * 0.1) + 's' }"
+      >
         <div class="icon-wrapper" :style="{ '--glow': getIconColor(index) }">
           <span class="skill-icon">{{ skill.icon }}</span>
         </div>
@@ -81,6 +86,13 @@ h3 {
   align-items: center;
   gap: 1rem;
   transition: all 0.3s ease;
+  animation: skillReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d);
+}
+
+@keyframes skillReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .icon-wrapper {

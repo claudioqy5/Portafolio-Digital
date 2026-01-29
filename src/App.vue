@@ -31,7 +31,8 @@ const skillCategories = [
       { name: 'Vue.js', icon: '🟢' },
       { name: 'JavaScript / TypeScript', icon: '💛' },
       { name: 'Angular', icon: '🛡️' },
-      { name: 'HTML5/CSS3', icon: '🎨' }
+      { name: 'HTML5/CSS3', icon: '🎨' },
+      { name: 'Tailwind CSS', icon: '🌊' }
     ]
   },
   {
@@ -40,7 +41,9 @@ const skillCategories = [
       { name: 'Node.js', icon: '🌳' },
       { name: 'Python', icon: '🐍' },
       { name: 'C# / .NET', icon: '🟣' },
-      { name: 'REST APIs', icon: '🔌' }
+      { name: 'REST APIs', icon: '🔌' },
+      { name: 'FastAPI', icon: '⚡' },
+      { name: 'AWS Lambda', icon: 'λ' }
     ]
   },
   {
@@ -49,7 +52,9 @@ const skillCategories = [
       { name: 'SQL Server', icon: '💾' },
       { name: 'MySQL', icon: '🐬' },
       { name: 'PostgreSQL', icon: '🐘' },
-      { name: 'DynamoDB', icon: '🍃' }
+      { name: 'DynamoDB', icon: '🍃' },
+      { name: 'MariaDB', icon: '🐹' },
+      { name: 'MongoDB', icon: '🌱' }
     ]
   },
   {
@@ -195,6 +200,7 @@ onMounted(() => {
   <LoadingScreen @loaded="isLoading = false" />
   
   <div v-show="!isLoading" class="app-container" @mousemove="onMouseMove">
+    <div class="scroll-progress"></div>
     <CustomCursor />
     <AnimatedBackground />
     
@@ -228,8 +234,18 @@ onMounted(() => {
       <section id="hero" class="hero visible">
         <div class="hero-content profile-layout">
           <div class="hero-text">
-            <h1>Hola mundo, soy <span class="highlight">Claudio</span></h1>
-            <p class="subtitle">Estudiante de Ingeniería Informática apasionado por crear soluciones tecnológicas innovadoras y experiencias digitales excepcionales.</p>
+            <h1>
+              Hola mundo, soy 
+              <span class="bounce-name">
+                <span 
+                  v-for="(char, index) in ['C','l','a','u','d','i','o']" 
+                  :key="index" 
+                  class="highlight animate-gradient letter"
+                  :style="{ '--d': (index * 0.1) + 's' }"
+                >{{ char }}</span>
+              </span>
+            </h1>
+            <p class="subtitle">Ingeniero Informático en formación, apasionado por crear soluciones tecnológicas innovadoras y experiencias digitales excepcionales.</p>
             <div class="cta-group">
               <a href="https://github.com" target="_blank" class="btn btn-github">
                 <span class="btn-icon">🐙</span> GitHub
@@ -243,10 +259,20 @@ onMounted(() => {
             </div>
           </div>
           <div class="hero-image">
-            <div class="image-frame">
-              <img :src="imgProfile" alt="Claudio Fernando">
-              <div class="frame-decor top-left"></div>
-              <div class="frame-decor bottom-right"></div>
+            <div class="hologram-container">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+              <div class="image-frame">
+                <img :src="imgProfile" alt="Claudio Fernando" class="hologram-img">
+                <div class="hologram-overlay"></div>
+                <div class="scanning-beam"></div>
+                <!-- HUD corners -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -258,18 +284,18 @@ onMounted(() => {
             <h2 class="section-title">Sobre Mí</h2>
             <div class="intro-content">
               <div class="intro-text">
-                <p>Me llamo <strong>Claudio Fernando Quello Yapu </strong> y soy un entusiasta del desarrollo de software con una mentalidad orientada a la resolución creativa de problemas. Mi viaje en la <strong>Ingeniería Informática</strong> se define por la curiosidad de entender cómo funcionan los sistemas desde sus cimientos hasta la interfaz que el usuario final toca.</p>
+                <p>Me llamo <strong>Claudio</strong> y soy un entusiasta del desarrollo de software con una mentalidad orientada a la resolución creativa de problemas. Mi viaje en la <strong>Ingeniería Informática</strong> se define por la curiosidad de entender cómo funcionan los sistemas desde sus cimientos hasta la interfaz que el usuario final toca.</p>
                 <p>Me especializo en crear código limpio, eficiente y escalable. Mi experiencia administrativa me ha dotado de una visión única sobre la importancia de la automatización y la optimización de procesos, habilidades que ahora traduzco en soluciones tecnológicas de alto valor.</p>
               </div>
               <div class="intro-features">
-                <div class="feature-tag">✨ Código Limpio</div>
-                <div class="feature-tag">🚀 Optimización</div>
-                <div class="feature-tag">🎨 Diseño UI/UX</div>                                
-                <div class="feature-tag">🤖 Automatizacion</div>
-                <div class="feature-tag">📊 Analisis de Sistemas</div>
-                <div class="feature-tag">🗄️ Bases de Datos</div>                                
-                <div class="feature-tag">🔄 Metodologias Agiles</div>
-                <div class="feature-tag">📝 Documentación Técnica</div>
+                <div class="feature-tag" style="--d: 0.1s">✨ Código Limpio</div>
+                <div class="feature-tag" style="--d: 0.2s">🚀 Optimización</div>
+                <div class="feature-tag" style="--d: 0.3s">🎨 Diseño UI/UX</div>                                
+                <div class="feature-tag" style="--d: 0.4s">🤖 Automatizacion</div>
+                <div class="feature-tag" style="--d: 0.5s">📊 Analisis de Sistemas</div>
+                <div class="feature-tag" style="--d: 0.6s">🗄️ Bases de Datos</div>                                
+                <div class="feature-tag" style="--d: 0.7s">🔄 Metodologias Agiles</div>
+                <div class="feature-tag" style="--d: 0.8s">📝 Documentación Técnica</div>
               </div>
             </div>
           </div>
@@ -405,6 +431,89 @@ onMounted(() => {
   to { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  z-index: 2000;
+  box-shadow: 0 0 15px var(--primary);
+  animation: scrollWatch auto linear;
+  animation-timeline: scroll();
+}
+
+@keyframes scrollWatch {
+  to { width: 100%; }
+}
+
+.animate-gradient {
+  background: linear-gradient(
+    to right, 
+    var(--primary), 
+    var(--secondary), 
+    var(--primary)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: gradientFlow 3s linear infinite;
+}
+
+@keyframes gradientFlow {
+  to { background-position: 200% center; }
+}
+
+.bounce-name {
+  display: inline-flex;
+  gap: 0;
+}
+
+.bounce-name .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-80px);
+  animation: bounceDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: calc(0.3s + var(--d));
+  position: relative;
+}
+
+/* Ensure the gradient text works on the letters */
+.letter.animate-gradient {
+  background: linear-gradient(
+    to right, 
+    var(--primary), 
+    var(--secondary), 
+    var(--primary)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  animation: gradientFlow 3s linear infinite, bounceDrop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0s, calc(0.3s + var(--d));
+}
+
+@keyframes bounceDrop {
+  0% { 
+    opacity: 0; 
+    transform: translateY(-100px); 
+  }
+  60% { 
+    opacity: 1; 
+    transform: translateY(20px); 
+  }
+  80% { 
+    transform: translateY(-10px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
 .mouse-glow {
   position: fixed;
   top: -250px;
@@ -464,50 +573,179 @@ onMounted(() => {
   flex: 0.8;
   display: flex;
   justify-content: flex-end;
-  perspective: 1000px;
+}
+
+.hologram-container {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed var(--primary);
+  opacity: 0.3;
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.ring-1 {
+  width: 100%;
+  height: 100%;
+  animation: rotateRing 20s linear infinite;
+  border-style: solid;
+  border-width: 2px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.ring-2 {
+  width: 85%;
+  height: 85%;
+  animation: rotateRing 15s linear infinite reverse;
+  border-style: dashed;
+  opacity: 0.2;
+}
+
+.ring-3 {
+  width: 115%;
+  height: 115%;
+  border: 1px solid var(--secondary);
+  opacity: 0.1;
+  animation: rotateRing 30s linear infinite;
+}
+
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .image-frame {
   position: relative;
-  width: 280px; /* Reduced size */
-  height: 280px; /* Reduced size */
-  padding: 10px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 40px;
-  animation: levitate 5s ease-in-out infinite, frameGlow 5s ease-in-out infinite;
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+  width: 260px;
+  height: 260px;
+  background: rgba(7, 11, 20, 0.8);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
+  z-index: 5;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes levitate {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(1deg); }
-}
-
-@keyframes frameGlow {
-  0%, 100% { border-color: var(--glass-border); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-  50% { border-color: var(--primary); box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
-}
-
-.image-frame img {
+.hologram-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 32px;
-  filter: sepia(0.1) contrast(1.1);
-  transition: transform 0.5s ease;
+  filter: saturate(1.2) contrast(1.1) brightness(1.1);
+  animation: hologramFlicker 4s infinite;
 }
 
-.image-frame:hover img {
-  transform: scale(1.05);
-}
-
-.frame-decor {
+.hologram-overlay {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 1; filter: saturate(1.2) brightness(1.1); }
+  5% { opacity: 0.95; filter: saturate(2) brightness(1.5) hue-rotate(90deg); }
+  10% { opacity: 1; filter: saturate(1.2) brightness(1.1); }
+  15% { opacity: 0.9; transform: translateX(2px); }
+  20% { opacity: 1; transform: translateX(0); }
+}
+
+.scanning-beam {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(212, 175, 55, 0.4),
+    transparent
+  );
+  z-index: 3;
+  animation: scanHologram 4s ease-in-out infinite;
+}
+
+@keyframes scanHologram {
+  0%, 100% { top: -100%; }
+  50% { top: 100%; }
+}
+
+.hud-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--primary);
-  opacity: 0.6;
+  z-index: 6;
+  opacity: 0.8;
+}
+
+.hud-corner.top-left { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
+.hud-corner.top-right { top: 20px; right: 20px; border-left: 0; border-bottom: 0; }
+.hud-corner.bottom-left { bottom: 20px; left: 20px; border-right: 0; border-top: 0; }
+.hud-corner.bottom-right { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
+
+.hologram-container:hover .ring-1 { 
+  width: 90%; 
+  height: 90%; 
+  opacity: 0.8; 
+  border-color: #fff;
+  animation-duration: 10s; 
+}
+
+.hologram-container:hover .ring-2 { 
+  width: 80%; 
+  height: 80%; 
+  opacity: 0.6; 
+  border-color: var(--secondary);
+  animation-duration: 8s; 
+}
+
+.hologram-container:hover .ring-3 { 
+  width: 100%; 
+  height: 100%; 
+  opacity: 0.4; 
+  border-color: var(--primary);
+  animation-duration: 15s; 
+}
+
+.hologram-container:hover .image-frame { 
+  transform: scale(1.1); 
+  border-color: #fff;
+  box-shadow: 0 0 70px rgba(212, 175, 55, 0.4);
+}
+
+.hologram-container:hover .hologram-img {
+  animation: hologramFlicker 0.5s infinite;
+  filter: saturate(1.5) contrast(1.2) brightness(1.3);
+}
+
+.hologram-container:hover .scanning-beam {
+  animation-duration: 1s;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #fff,
+    transparent
+  );
+  opacity: 0.8;
 }
 
 /* About Intro Styles */
@@ -527,6 +765,8 @@ onMounted(() => {
   color: var(--text-muted);
   line-height: 1.8;
   margin-bottom: 1.5rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .intro-text strong {
@@ -537,28 +777,70 @@ onMounted(() => {
 .intro-features {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
 }
 
 .feature-tag {
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  padding: 0.8rem 1.5rem;
-  border-radius: 12px;
+  padding: 0.9rem 1.6rem;
+  border-radius: 50px; /* More pill-shaped */
   font-weight: 600;
   color: #fff;
   font-size: 0.9rem;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  cursor: default;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.section.visible .feature-tag {
+  animation: tagReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, 
+             floatTag 4s ease-in-out infinite alternate;
+  animation-delay: var(--d), calc(var(--d) + 0.6s);
+}
+
+@keyframes floatTag {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.feature-tag:nth-child(even) {
+  animation-duration: 5s;
+  animation-direction: alternate-reverse;
 }
 
 .feature-tag:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--primary);
-  transform: translateY(-5px);
+  background: var(--primary);
+  border-color: #fff;
+  color: #000;
+  transform: scale(1.15) translateZ(50px) !important;
+  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+  z-index: 10;
+}
+
+@keyframes tagReveal {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 968px) {
   .intro-content { grid-template-columns: 1fr; }
+  .intro-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  .feature-tag {
+    animation-name: tagReveal !important; /* Disable float on mobile for stability */
+    border-radius: 12px;
+    font-size: 0.8rem;
+    padding: 0.8rem;
+  }
 }
 
 /* Timeline Styles */
@@ -595,6 +877,25 @@ onMounted(() => {
   border: 4px solid var(--primary);
   border-radius: 50%;
   box-shadow: 0 0 15px var(--primary);
+  z-index: 2;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
 }
 
 .timeline-date {
@@ -635,8 +936,10 @@ onMounted(() => {
 
 .timeline-card p {
   color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .event-type {
@@ -734,8 +1037,10 @@ onMounted(() => {
 .contact-info p {
   font-size: 1.2rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 3rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .contact-methods {
