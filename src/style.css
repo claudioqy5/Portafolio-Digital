@@ -10,7 +10,14 @@
     --text-main: #e2e8f0;
     --text-muted: #94a3b8;
     --glass: rgba(212, 175, 55, 0.05);
-    --glass-border: rgba(212, 175, 55, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
 }
 
 * {
@@ -26,7 +33,7 @@ html {
 }
 
 body {
-    font-family: 'Outfit', 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-main);
     line-height: 1.6;
@@ -133,8 +140,18 @@ nav a:hover::after {
     justify-content: center;
     text-align: center;
     padding: 0 5%;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 0;
     overflow: hidden;
+}
+
+.content-layer {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-dark);
+    margin-top: 0;
+    width: 100%;
 }
 
 @keyframes pulse {
@@ -243,39 +260,23 @@ nav a:hover::after {
 }
 
 .section {
-    opacity: 0;
+    opacity: 1;
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 10rem 5%;
     position: relative;
     will-change: transform, opacity, filter;
 }
 
-/* Unique Initial States - Reduced intensity */
-.section-about {
-    transform: translateX(-50px);
-    filter: blur(10px);
-}
+/* Unique Initial States - Reduced intensity - Disabled for sticky effect visibility */
+.section-about {}
 
-.section-timeline {
-    transform: perspective(1000px) rotateX(5deg) scale(0.95);
-    filter: blur(5px);
-}
+.section-timeline {}
 
-.section-skills {
-    transform: scale(0.9) rotateY(5deg);
-    filter: blur(10px);
-}
+.section-skills {}
 
-.section-projects {
-    transform: translateY(50px);
-    filter: grayscale(0.5);
-}
+.section-projects {}
 
-.section-contact {
-    transform: scale(1.05);
-    filter: blur(20px);
-    opacity: 0;
-}
+.section-contact {}
 
 .section.visible {
     opacity: 1 !important;

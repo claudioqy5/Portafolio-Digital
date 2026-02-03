@@ -303,189 +303,213 @@ onMounted(() => {
         </div>
       </section>
 
-      <section class="section section-about">
-        <div class="container">
-          <div class="about-grid-new">
-            <!-- Left Side: Visual Core -->
-            <div class="about-visual">
-              <div class="core-system">
-                <div class="core-orbit"></div>
-                <div class="core-center">
-                  <div class="core-glow"></div>
-                  <div class="core-icon">⚛️</div>
+      <div class="content-layer">
+        <section class="section section-about">
+          <div class="container">
+            <div class="about-bento-grid">
+              <!-- Bio Card -->
+              <div class="bio-section-text">
+                <div class="cyber-header">
+                  
+                  <h2 id="about" class="minimal-title">Sobre Mí</h2>
                 </div>
-                <div class="data-pulse"></div>
-                <!-- Floating Labels -->
-                <div class="core-label l1">SYSTEM: ACTIVE</div>
-                <div class="core-label l2">CORE: OPTIMIZED</div>
-                <div class="core-label l3">LOGIC: 100%</div>
-              </div>
-            </div>
-
-            <!-- Right Side: Content -->
-            <div class="about-content-new">
-              <div class="cyber-header">
-                <span class="cyber-subtitle">IDENTITY_PROFILE</span>
-                <h2 id="about" class="section-title">Sobre Mí</h2>
-              </div>
-              
-              <div class="intro-text">
-                <p>Me llamo <strong>Claudio</strong> y soy un entusiasta del desarrollo de software con una mentalidad orientada a la resolución creativa de problemas. Mi viaje en la <strong>Ingeniería Informática</strong> se define por la curiosidad de entender cómo funcionan los sistemas desde sus cimientos hasta la interfaz que el usuario final toca.</p>
-                <p>Me especializo en crear código limpio, eficiente y escalable. Mi experiencia administrativa me ha dotado de una visión única sobre la importancia de la automatización y la optimización de procesos, habilidades que ahora traduzco en soluciones tecnológicas de alto valor.</p>
+                <div class="intro-text">
+                  <p>Soy <strong>Claudio</strong>, un <strong>Ingeniero Informático</strong> apasionado por transformar líneas de código en experiencias digitales de alto impacto. Mi enfoque fusiona la <strong>lógica administrativa</strong> con la creatividad del desarrollo para construir soluciones eficientes, limpias y escalables.</p>
+                  <p>No solo escribo código; diseño sistemas que optimizan procesos y potencian el futuro tecnológico.</p>
+                </div>
               </div>
 
-              <div class="data-modules">
-                <div class="module-box" style="--d: 0.2s">
-                  <div class="module-icon">⚡</div>
-                  <div class="module-info">
-                    <h4>Rendimiento</h4>
-                    <p>Optimización nativa</p>
+              <!-- Core Animation Card -->
+              <div class="bento-card visual-card">
+                <div class="card-glass"></div>
+                <div class="core-system-mini">
+                  <div class="core-orbit"></div>
+                  <div class="core-center">
+                    <div class="core-glow"></div>
+                    <div class="core-icon">⚛️</div>
                   </div>
+                  <div class="core-label-mini">SYSTEM_ONLINE</div>
                 </div>
-                <div class="module-box" style="--d: 0.4s">
-                  <div class="module-icon">�️</div>
-                  <div class="module-info">
-                    <h4>Calidad</h4>
-                    <p>Estructuras sólidas</p>
-                  </div>
+              </div>
+
+              <!-- Status Card -->
+              <div class="bento-card status-card">
+                <div class="card-glass"></div>
+                <div class="status-indicator">
+                  <div class="pulse-dot"></div>
+                  <span>Disponible para Proyectos</span>
                 </div>
-                <div class="module-box" style="--d: 0.6s">
-                  <div class="module-icon">🌐</div>
-                  <div class="module-info">
-                    <h4>Escalabilidad</h4>
-                    <p>Visión de futuro</p>
-                  </div>
+                <p class="status-detail">Enfocado en IA & Desarrollo Fullstack</p>
+              </div>
+
+              <!-- Feature: Performance -->
+              <div class="bento-card feature-card">
+                <div class="card-glass"></div>
+                <div class="feature-icon">⚡</div>
+                <div class="feature-info">
+                  <h4>Rendimiento</h4>
+                  <p>Optimización extrema</p>
                 </div>
+              </div>
+
+              <!-- Feature: Quality -->
+              <div class="bento-card feature-card">
+                <div class="card-glass"></div>
+                <div class="feature-icon">💎</div>
+                <div class="feature-info">
+                  <h4>Calidad</h4>
+                  <p>Código sólido</p>
+                </div>
+              </div>
+
+              <!-- Feature: Scalability -->
+              <div class="bento-card feature-card">
+                <div class="card-glass"></div>
+                <div class="feature-icon">🌐</div>
+                <div class="feature-info">
+                  <h4>Escalabilidad</h4>
+                  <p>Visión modular</p>
+                </div>
+              </div>
+
+              <!-- Location Card -->
+              <div class="bento-card location-card">
+                <div class="card-glass"></div>
+                <div class="location-wrapper">
+                  <span class="loc-icon">📍</span>
+                  <span class="loc-text">Lima, Perú</span>
+                </div>
+                <div class="time-stamp">UTC-5</div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section section-timeline">
-        <div class="container">
-          <h2 id="timeline" class="section-title">Mi Trayectoria</h2>
-          <div class="timeline">
-            <div 
-              v-for="(event, index) in timelineEvents" 
-              :key="index" 
-              class="timeline-item"
-            >
-              <div class="timeline-dot"></div>
-              <div class="timeline-date">{{ event.period }}</div>
-              <div class="timeline-card">
-                <span class="event-type" :class="event.type">{{ event.type }}</span>
-                <h3>{{ event.title }}</h3>
-                <h4>{{ event.organization }}</h4>
-                <p>{{ event.description }}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="about-stats">
-            <div class="stat-card">
-              <span class="stat-number">7+</span>
-              <span class="stat-label">Años de Experiencia</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">Inmediata</span>
-              <span class="stat-label">Disponibilidad</span>
-            </div>
-          </div>  
-        </div>
-      </section>
-      
-      <section class="section section-skills">
-        <div class="container">
-          <h2 id="skills" class="section-title center">Stack Tecnológico</h2>
-          
-          <div class="minimal-skills-container">
-            <div 
-              v-for="(cat, index) in skillCategories" 
-              :key="cat.title"
-              class="skill-category-block"
-              :style="{ '--d': index * 0.1 + 's' }"
-            >
-              <div class="category-info">
-                <h3 class="category-name">{{ cat.title }}</h3>
-                <div class="category-underline"></div>
-              </div>
-              
-              <div class="skills-chip-wrapper">
-                <div 
-                  v-for="skill in cat.skills" 
-                  :key="skill.name" 
-                  class="skill-chip"
-                >
-                  <span class="chip-icon">{{ skill.icon }}</span>
-                  <span class="chip-name">{{ skill.name }}</span>
+        <section class="section section-timeline">
+          <div class="container">
+            <h2 id="timeline" class="section-title">Mi Trayectoria</h2>
+            <div class="timeline">
+              <div 
+                v-for="(event, index) in timelineEvents" 
+                :key="index" 
+                class="timeline-item"
+              >
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">{{ event.period }}</div>
+                <div class="timeline-card">
+                  <span class="event-type" :class="event.type">{{ event.type }}</span>
+                  <h3>{{ event.title }}</h3>
+                  <h4>{{ event.organization }}</h4>
+                  <p>{{ event.description }}</p>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="section section-projects">
-        <div class="container">
-          <h2 id="projects" class="section-title">Ingeniería en Acción</h2>
-          <div class="projects-grid">
-            <ProjectCard 
-              v-for="proj in projects" 
-              :key="proj.title"
-              :project="proj"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-contact">
-        <div class="container">
-          <div id="contact" class="contact-card">
-            <div class="contact-grid">
-              <div class="contact-info">
-                <span class="contact-badge">¿Listo para innovar?</span>
-                <h2>Trabajemos juntos</h2>
-                <p>Estoy listo para aportar con análisis, desarrollo y automatización de soluciones, combinando experiencia administrativa y formación en Ingeniería Informática. Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</p>
-                <div class="contact-methods">
-                  <div class="method-item">
-                    <span class="method-icon">📍</span>
-                    <span>Lima, Perú</span>
-                  </div>
-                  <div class="method-item">
-                    <span class="method-icon">📧</span>
-                    <span>claudioquello5@gmail.com</span>
-                  </div>
-                </div>
+            <div class="about-stats">
+              <div class="stat-card">
+                <span class="stat-number">7+</span>
+                <span class="stat-label">Años de Experiencia</span>
               </div>
-
-              <div class="contact-form-wrapper">
-                <div v-if="formSubmitted" class="success-message">
-                  <div class="success-icon">✨</div>
-                  <h3>¡Mensaje Enviado!</h3>
-                  <p>Gracias por contactarme, claudio. Te responderé lo antes posible.</p>
-                  <button @click="formSubmitted = false" class="btn btn-secondary">Enviar otro mensaje</button>
+              <div class="stat-card">
+                <span class="stat-number">Inmediata</span>
+                <span class="stat-label">Disponibilidad</span>
+              </div>
+            </div>  
+          </div>
+        </section>
+        
+        <section class="section section-skills">
+          <div class="container">
+            <h2 id="skills" class="section-title center">Stack Tecnológico</h2>
+            
+            <div class="minimal-skills-container">
+              <div 
+                v-for="(cat, index) in skillCategories" 
+                :key="cat.title"
+                class="skill-category-block"
+                :style="{ '--d': index * 0.1 + 's' }"
+              >
+                <div class="category-info">
+                  <h3 class="category-name">{{ cat.title }}</h3>
+                  <div class="category-underline"></div>
                 </div>
                 
-                <form v-else class="contact-form" @submit.prevent="handleFormSubmit">
-                  <div class="form-group">
-                    <input type="text" name="name" v-model="formData.name" placeholder="Tu Nombre" required>
+                <div class="skills-chip-wrapper">
+                  <div 
+                    v-for="skill in cat.skills" 
+                    :key="skill.name" 
+                    class="skill-chip"
+                  >
+                    <span class="chip-icon">{{ skill.icon }}</span>
+                    <span class="chip-name">{{ skill.name }}</span>
                   </div>
-                  <div class="form-group">
-                    <input type="email" name="email" v-model="formData.email" placeholder="Tu Correo Electrónico" required>
-                  </div>
-                  <div class="form-group">
-                    <textarea name="message" v-model="formData.message" placeholder="Tu Mensaje" rows="5" required></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-                    {{ isSubmitting ? 'Enviando...' : 'Enviar Mensaje' }}
-                  </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section class="section section-projects">
+          <div class="container">
+            <h2 id="projects" class="section-title">Ingeniería en Acción</h2>
+            <div class="projects-grid">
+              <ProjectCard 
+                v-for="proj in projects" 
+                :key="proj.title"
+                :project="proj"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-contact">
+          <div class="container">
+            <div id="contact" class="contact-card">
+              <div class="contact-grid">
+                <div class="contact-info">
+                  <span class="contact-badge">¿Listo para innovar?</span>
+                  <h2>Trabajemos juntos</h2>
+                  <p>Estoy listo para aportar con análisis, desarrollo y automatización de soluciones, combinando experiencia administrativa y formación en Ingeniería Informática. Si tienes un proyecto, una idea o una oportunidad para colaborar, conversemos.</p>
+                  <div class="contact-methods">
+                    <div class="method-item">
+                      <span class="method-icon">📍</span>
+                      <span>Lima, Perú</span>
+                    </div>
+                    <div class="method-item">
+                      <span class="method-icon">📧</span>
+                      <span>claudioquello5@gmail.com</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                  <div v-if="formSubmitted" class="success-message">
+                    <div class="success-icon">✨</div>
+                    <h3>¡Mensaje Enviado!</h3>
+                    <p>Gracias por contactarme, claudio. Te responderé lo antes posible.</p>
+                    <button @click="formSubmitted = false" class="btn btn-secondary">Enviar otro mensaje</button>
+                  </div>
+                  
+                  <form v-else class="contact-form" @submit.prevent="handleFormSubmit">
+                    <div class="form-group">
+                      <input type="text" name="name" v-model="formData.name" placeholder="Tu Nombre" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="email" name="email" v-model="formData.email" placeholder="Tu Correo Electrónico" required>
+                    </div>
+                    <div class="form-group">
+                      <textarea name="message" v-model="formData.message" placeholder="Tu Mensaje" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+                      {{ isSubmitting ? 'Enviando...' : 'Enviar Mensaje' }}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="footer">
@@ -828,29 +852,104 @@ onMounted(() => {
   opacity: 0.8;
 }
 
-/* New About Styles */
-.about-grid-new {
+/* New Bento About Styles */
+.about-bento-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 6rem;
-  align-items: center;
-  min-height: 600px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.about-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.bento-card {
   position: relative;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.core-system {
-  position: relative;
-  width: 300px;
-  height: 300px;
+.card-glass {
+  display: none;
+}
+
+.bento-card:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.02);
+  transform: translateY(-5px);
+}
+
+.visual-card {
+  grid-column: span 1;
+  grid-row: span 2;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1), transparent 70%);
+}
+
+.status-card {
+  grid-column: span 1;
+  background: rgba(37, 211, 102, 0.03);
+}
+
+.feature-card {
+  grid-column: span 1;
+  padding: 1.5rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.location-card {
+  grid-column: span 1;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+.bio-section-text {
+  grid-column: span 2;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.minimal-title {
+  font-size: clamp(3.5rem, 5vw, 5rem);
+  font-weight: 300;
+  margin-bottom: 2rem;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.bio-section-text .intro-text p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  max-width: 90%;
+}
+
+.core-system-mini {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .core-orbit {
@@ -864,43 +963,29 @@ onMounted(() => {
 
 .core-center {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 70px;
+  height: 70px;
   background: var(--bg-card);
-  border: 4px solid var(--primary);
+  border: 3px solid var(--primary);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: morphCore 8s ease-in-out infinite;
-  box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
 }
 
 .core-glow {
   position: absolute;
-  inset: -20px;
+  inset: -10px;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
   animation: pulseGlow 4s ease-in-out infinite;
 }
 
 .core-icon {
-  font-size: 3rem;
+  font-size: 1.8rem;
   z-index: 2;
 }
-
-.core-label {
-  position: absolute;
-  font-family: monospace;
-  font-size: 0.7rem;
-  color: var(--primary);
-  letter-spacing: 2px;
-  white-space: nowrap;
-  opacity: 0.6;
-}
-
-.l1 { top: -40px; left: 50%; transform: translateX(-50%); }
-.l2 { bottom: -40px; left: 50%; transform: translateX(-50%); }
-.l3 { right: -60px; top: 50%; transform: rotate(90deg) translateX(-50%); }
 
 @keyframes rotateCore {
   from { transform: rotate(0deg); }
@@ -918,96 +1003,91 @@ onMounted(() => {
   50% { opacity: 0.6; transform: scale(1.2); }
 }
 
-.cyber-header {
-  margin-bottom: 2.5rem;
-}
-
-.cyber-subtitle {
+.core-label-mini {
+  position: absolute;
+  bottom: -30px;
   font-family: monospace;
+  font-size: 0.7rem;
   color: var(--primary);
-  font-size: 0.9rem;
-  letter-spacing: 4px;
-  display: block;
-  margin-bottom: 0.5rem;
-  opacity: 0.8;
+  letter-spacing: 2px;
+  opacity: 0.6;
 }
 
-.about-content-new .intro-text p {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  text-align: justify;
-}
-
-.data-modules {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 3rem;
-}
-
-.module-box {
-  background: var(--bg-card);
-  padding: 1.5rem;
-  border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+.status-indicator {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  opacity: 0;
-  transform: translateY(20px);
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
-.section.visible .module-box {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: var(--d);
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #25d366;
+  animation: pulse-green 2s infinite;
 }
 
-.module-box:hover {
-  border-color: var(--primary);
-  background: rgba(212, 175, 55, 0.05);
-  transform: translateY(-5px);
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
-.module-icon {
-  font-size: 1.8rem;
+.status-indicator span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #25d366;
 }
 
-.module-info h4 {
-  font-size: 1rem;
-  color: #fff;
-  margin-bottom: 0.3rem;
-}
-
-.module-info p {
+.status-detail {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
-@media (max-width: 968px) {
-  .about-grid-new {
+.feature-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 10px var(--primary));
+}
+
+.feature-info h4 {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.feature-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.location-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.loc-icon { font-size: 1.5rem; }
+.loc-text { font-weight: 600; font-size: 1.1rem; }
+.time-stamp { font-family: monospace; font-size: 0.8rem; opacity: 0.5; }
+
+@media (max-width: 1024px) {
+  .about-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bio-card { order: 1; }
+  .visual-card { order: 2; }
+}
+
+@media (max-width: 768px) {
+  .about-bento-grid {
     grid-template-columns: 1fr;
-    gap: 4rem;
-    text-align: center;
   }
-  
-  .about-content-new .intro-text p {
-    text-align: center;
-  }
-  
-  .data-modules {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 3rem auto 0;
-  }
-  
-  .module-box {
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
+  .bio-card, .visual-card, .status-card, .feature-card, .location-card {
+    grid-column: span 1;
+    grid-row: span 1;
   }
 }
 
