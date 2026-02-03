@@ -51,41 +51,79 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5%;
+    padding: 0.8rem 2.5rem;
     position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    background: rgba(7, 11, 20, 0.7);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border);
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 2rem;
+    z-index: 10001;
+    background: rgba(10, 12, 16, 0.4);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 800px;
+}
+
+.navbar.scrolled {
+    top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background: rgba(10, 12, 16, 0.85);
+    min-width: 50%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #fff;
     text-transform: uppercase;
     text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px var(--primary);
+}
+
+.logo:hover {
+    color: var(--primary);
+    text-shadow: -2px -1px #fff;
+    transform: scale(1.05);
 }
 
 nav a {
-    color: var(--text-main);
+    color: #fff;
     text-decoration: none;
-    margin-left: 2rem;
-    font-weight: 500;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    margin: 0 1.2rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    opacity: 0.7;
+    opacity: 0.6;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px var(--primary);
 }
 
 nav a:hover {
-    color: var(--primary);
     opacity: 1;
-    transform: translateY(-2px);
+}
+
+nav a:hover::after {
+    width: 100%;
 }
 
 .hero {
@@ -99,22 +137,13 @@ nav a:hover {
     overflow: hidden;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    width: 150%;
-    height: 150%;
-    background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
-    animation: pulse 10s infinite alternate;
-}
-
 @keyframes pulse {
     0% {
         transform: scale(1);
     }
 
     100% {
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
 }
 
@@ -208,16 +237,56 @@ nav a:hover {
     background: var(--accent);
 }
 
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
 .section {
     opacity: 0;
-    transform: translateY(50px);
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 10rem 5%;
+    position: relative;
+    will-change: transform, opacity, filter;
+}
+
+/* Unique Initial States - Reduced intensity */
+.section-about {
+    transform: translateX(-50px);
+    filter: blur(10px);
+}
+
+.section-timeline {
+    transform: perspective(1000px) rotateX(5deg) scale(0.95);
+    filter: blur(5px);
+}
+
+.section-skills {
+    transform: scale(0.9) rotateY(5deg);
+    filter: blur(10px);
+}
+
+.section-projects {
+    transform: translateY(50px);
+    filter: grayscale(0.5);
+}
+
+.section-contact {
+    transform: scale(1.05);
+    filter: blur(20px);
+    opacity: 0;
 }
 
 .section.visible {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+}
+
+.section-title,
+.contact-card,
+#timeline {
+    scroll-margin-top: 100px;
 }
 
 .section-title {
@@ -244,6 +313,17 @@ nav a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
+}
+
+@media (max-width: 1024px) {
+    .navbar {
+        min-width: 90%;
+        top: 1rem;
+    }
+
+    .system-status {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {

@@ -4,6 +4,7 @@ import SkillCard from './components/SkillCard.vue'
 import ProjectCard from './components/ProjectCard.vue'
 import CustomCursor from './components/CustomCursor.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
+import AnimatedHero from './components/AnimatedHero.vue'
 import AnimatedBackground from './components/AnimatedBackground.vue'
 
 import imgProjectEricka from './assets/proyectoERICKA.JPG'
@@ -14,6 +15,7 @@ import imgProfile from './assets/mifotocara.JPG'
 
 const isLoading = ref(true)
 const isMenuOpen = ref(false)
+const isScrolled = ref(false)
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -188,10 +190,30 @@ onMounted(() => {
         entry.target.classList.add('visible')
       }
     })
-  }, { threshold: 0.1 })
+  }, { 
+    threshold: 0,
+    rootMargin: '200px 0px 0px 0px' 
+  })
 
-  document.querySelectorAll('.section').forEach(section => {
+  const sections = document.querySelectorAll('.section')
+  sections.forEach(section => {
     observer.observe(section)
+    // Precise rect check to reveal initially visible sections
+    const rect = section.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      section.classList.add('visible')
+    }
+  })
+
+  // Force reveal of active anchor section on load
+  if (window.location.hash) {
+    const activeSection = document.querySelector(window.location.hash)?.closest('.section')
+    if (activeSection) activeSection.classList.add('visible')
+  }
+
+  // Header scroll detection
+  window.addEventListener('scroll', () => {
+    isScrolled.value = window.scrollY > 50
   })
 })
 </script>
@@ -210,8 +232,7 @@ onMounted(() => {
       :style="{ transform: `translate3d(${glowX}px, ${glowY}px, 0)` }"
     ></div>
 
-    <header class="navbar" :class="{ 'menu-open': isMenuOpen }">
-      
+    <header class="navbar" :class="{ 'menu-open': isMenuOpen, 'scrolled': isScrolled }">
       <a href="#hero" class="logo" @click="closeMenu">CFQY</a>
       
       <button class="menu-toggle" @click="toggleMenu" :aria-label="isMenuOpen ? 'Cerrar menú' : 'Abrir menú'">
@@ -232,6 +253,7 @@ onMounted(() => {
 
     <main>
       <section id="hero" class="hero visible">
+        <AnimatedHero />
         <div class="hero-content profile-layout">
           <div class="hero-text">
             <h1>
@@ -281,28 +303,67 @@ onMounted(() => {
         </div>
       </section>
 
-      <section id="about" class="section">
+      <section class="section section-about">
         <div class="container">
-          <div class="about-intro">
-            <h2 class="section-title">Sobre Mí</h2>
-            <div class="intro-content">
+          <div class="about-grid-new">
+            <!-- Left Side: Visual Core -->
+            <div class="about-visual">
+              <div class="core-system">
+                <div class="core-orbit"></div>
+                <div class="core-center">
+                  <div class="core-glow"></div>
+                  <div class="core-icon">⚛️</div>
+                </div>
+                <div class="data-pulse"></div>
+                <!-- Floating Labels -->
+                <div class="core-label l1">SYSTEM: ACTIVE</div>
+                <div class="core-label l2">CORE: OPTIMIZED</div>
+                <div class="core-label l3">LOGIC: 100%</div>
+              </div>
+            </div>
+
+            <!-- Right Side: Content -->
+            <div class="about-content-new">
+              <div class="cyber-header">
+                <span class="cyber-subtitle">IDENTITY_PROFILE</span>
+                <h2 id="about" class="section-title">Sobre Mí</h2>
+              </div>
+              
               <div class="intro-text">
                 <p>Me llamo <strong>Claudio</strong> y soy un entusiasta del desarrollo de software con una mentalidad orientada a la resolución creativa de problemas. Mi viaje en la <strong>Ingeniería Informática</strong> se define por la curiosidad de entender cómo funcionan los sistemas desde sus cimientos hasta la interfaz que el usuario final toca.</p>
                 <p>Me especializo en crear código limpio, eficiente y escalable. Mi experiencia administrativa me ha dotado de una visión única sobre la importancia de la automatización y la optimización de procesos, habilidades que ahora traduzco en soluciones tecnológicas de alto valor.</p>
               </div>
-              <div class="intro-features">
-                <div class="feature-tag" style="--d: 0.1s">✨ Código Limpio</div>
-                <div class="feature-tag" style="--d: 0.2s">🚀 Optimización</div>
-                <div class="feature-tag" style="--d: 0.3s">🎨 Diseño UI/UX</div>                                
-                <div class="feature-tag" style="--d: 0.4s">🤖 Automatizacion</div>
-                <div class="feature-tag" style="--d: 0.5s">📊 Analisis de Sistemas</div>
-                <div class="feature-tag" style="--d: 0.6s">🗄️ Bases de Datos</div>                                
-                <div class="feature-tag" style="--d: 0.7s">🔄 Metodologias Agiles</div>
-                <div class="feature-tag" style="--d: 0.8s">📝 Documentación Técnica</div>
+
+              <div class="data-modules">
+                <div class="module-box" style="--d: 0.2s">
+                  <div class="module-icon">⚡</div>
+                  <div class="module-info">
+                    <h4>Rendimiento</h4>
+                    <p>Optimización nativa</p>
+                  </div>
+                </div>
+                <div class="module-box" style="--d: 0.4s">
+                  <div class="module-icon">�️</div>
+                  <div class="module-info">
+                    <h4>Calidad</h4>
+                    <p>Estructuras sólidas</p>
+                  </div>
+                </div>
+                <div class="module-box" style="--d: 0.6s">
+                  <div class="module-icon">🌐</div>
+                  <div class="module-info">
+                    <h4>Escalabilidad</h4>
+                    <p>Visión de futuro</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          
+        </div>
+      </section>
+
+      <section class="section section-timeline">
+        <div class="container">
           <h2 id="timeline" class="section-title">Mi Trayectoria</h2>
           <div class="timeline">
             <div 
@@ -322,7 +383,6 @@ onMounted(() => {
           </div>
 
           <div class="about-stats">
-            
             <div class="stat-card">
               <span class="stat-number">7+</span>
               <span class="stat-label">Años de Experiencia</span>
@@ -335,23 +395,40 @@ onMounted(() => {
         </div>
       </section>
       
-      <section id="skills" class="section">
+      <section class="section section-skills">
         <div class="container">
-          <h2 class="section-title">Stack Tecnológico</h2>
-          <div class="skills-layout">
-            <SkillCard 
-              v-for="cat in skillCategories" 
+          <h2 id="skills" class="section-title center">Stack Tecnológico</h2>
+          
+          <div class="minimal-skills-container">
+            <div 
+              v-for="(cat, index) in skillCategories" 
               :key="cat.title"
-              :title="cat.title"
-              :skills="cat.skills"
-            />
+              class="skill-category-block"
+              :style="{ '--d': index * 0.1 + 's' }"
+            >
+              <div class="category-info">
+                <h3 class="category-name">{{ cat.title }}</h3>
+                <div class="category-underline"></div>
+              </div>
+              
+              <div class="skills-chip-wrapper">
+                <div 
+                  v-for="skill in cat.skills" 
+                  :key="skill.name" 
+                  class="skill-chip"
+                >
+                  <span class="chip-icon">{{ skill.icon }}</span>
+                  <span class="chip-name">{{ skill.name }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="projects" class="section">
+      <section class="section section-projects">
         <div class="container">
-          <h2 class="section-title">Ingeniería en Acción</h2>
+          <h2 id="projects" class="section-title">Ingeniería en Acción</h2>
           <div class="projects-grid">
             <ProjectCard 
               v-for="proj in projects" 
@@ -362,9 +439,9 @@ onMounted(() => {
         </div>
       </section>
 
-      <section id="contact" class="section">
+      <section class="section section-contact">
         <div class="container">
-          <div class="contact-card">
+          <div id="contact" class="contact-card">
             <div class="contact-grid">
               <div class="contact-info">
                 <span class="contact-badge">¿Listo para innovar?</span>
@@ -751,133 +828,186 @@ onMounted(() => {
   opacity: 0.8;
 }
 
-/* About Intro Styles */
-.about-intro {
-  margin-bottom: 8rem;
-}
-
-.intro-content {
+/* New About Styles */
+.about-grid-new {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 4rem;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 6rem;
   align-items: center;
+  min-height: 600px;
 }
 
-.intro-text p {
-  font-size: 1.3rem;
-  color: var(--text-muted);
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  text-align: justify;
-  hyphens: auto;
-}
-
-.intro-text strong {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.intro-features {
+.about-visual {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.2rem;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
+  position: relative;
 }
 
-.feature-tag {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  padding: 0.9rem 1.6rem;
-  border-radius: 50px; /* More pill-shaped */
-  font-weight: 600;
-  color: #fff;
+.core-system {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.core-orbit {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed var(--primary);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: rotateCore 20s linear infinite;
+}
+
+.core-center {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: var(--bg-card);
+  border: 4px solid var(--primary);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: morphCore 8s ease-in-out infinite;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+}
+
+.core-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.core-icon {
+  font-size: 3rem;
+  z-index: 2;
+}
+
+.core-label {
+  position: absolute;
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--primary);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  opacity: 0.6;
+}
+
+.l1 { top: -40px; left: 50%; transform: translateX(-50%); }
+.l2 { bottom: -40px; left: 50%; transform: translateX(-50%); }
+.l3 { right: -60px; top: 50%; transform: rotate(90deg) translateX(-50%); }
+
+@keyframes rotateCore {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes morphCore {
+  0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  50% { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; }
+  100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.cyber-header {
+  margin-bottom: 2.5rem;
+}
+
+.cyber-subtitle {
+  font-family: monospace;
+  color: var(--primary);
   font-size: 0.9rem;
+  letter-spacing: 4px;
+  display: block;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.about-content-new .intro-text p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.data-modules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.module-box {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   opacity: 0;
   transform: translateY(20px);
-  cursor: default;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
 }
 
-.section.visible .feature-tag {
-  animation: tagReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, 
-             floatTag 4s ease-in-out infinite alternate;
-  animation-delay: var(--d), calc(var(--d) + 0.6s);
+.section.visible .module-box {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--d);
 }
 
-@keyframes floatTag {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-10px) rotate(2deg); }
+.module-box:hover {
+  border-color: var(--primary);
+  background: rgba(212, 175, 55, 0.05);
+  transform: translateY(-5px);
 }
 
-.feature-tag:nth-child(even) {
-  animation-duration: 5s;
-  animation-direction: alternate-reverse;
+.module-icon {
+  font-size: 1.8rem;
 }
 
-.feature-tag:hover {
-  background: var(--primary);
-  border-color: #fff;
-  color: #000;
-  transform: scale(1.15) translateZ(50px) !important;
-  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
-  z-index: 10;
+.module-info h4 {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
 }
 
-@keyframes tagReveal {
-  to { opacity: 1; transform: translateY(0); }
+.module-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 @media (max-width: 968px) {
-  .intro-content { grid-template-columns: 1fr; }
-  .intro-features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
+  .about-grid-new {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    text-align: center;
   }
-  .feature-tag {
-    animation-name: tagReveal !important;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    padding: 0.8rem;
+  
+  .about-content-new .intro-text p {
+    text-align: center;
   }
-}
-
-/* Mobile-only specific fix for "Sobre Mí" alignment */
-@media (max-width: 768px) {
-  #about .container {
-    padding: 0 7%; /* Force equal horizontal spacing */
-    display: flex;
-    flex-direction: column;
+  
+  .data-modules {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 3rem auto 0;
+  }
+  
+  .module-box {
+    flex-direction: row;
     align-items: center;
-  }
-
-  .intro-content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .intro-text p {
-    width: 100%;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-  }
-
-  .intro-features {
-    width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    gap: 0.7rem;
-  }
-
-  .feature-tag {
-    width: 100%;
-    margin: 0;
+    text-align: left;
   }
 }
 
@@ -1038,10 +1168,100 @@ onMounted(() => {
   .timeline-card { padding: 1.5rem; }
 }
 
-.skills-layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
+/* Minimal Skills Styles */
+.minimal-skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 4rem auto 0;
+}
+
+.skill-category-block {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d);
+}
+
+.section.visible .skill-category-block {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.category-info {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category-name {
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.category-underline {
+  width: 40px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.skills-chip-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skill-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  padding: 0.6rem 1.4rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.skill-chip:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.chip-icon {
+  font-size: 1.2rem;
+}
+
+.chip-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .minimal-skills-container {
+    gap: 2.5rem;
+  }
+  
+  .skills-chip-wrapper {
+    justify-content: center;
+  }
+  
+  .category-info {
+    align-items: center;
+  }
 }
 
 .projects-grid {

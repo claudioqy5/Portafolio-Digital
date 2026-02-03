@@ -1,7 +1,11 @@
 <script setup>
 defineProps({
   title: String,
-  skills: Array
+  skills: Array,
+  baseDelay: {
+    type: Number,
+    default: 0
+  }
 })
 
 const getIconColor = (index) => {
@@ -11,7 +15,10 @@ const getIconColor = (index) => {
 </script>
 
 <template>
-  <div class="skills-category">
+  <div 
+    class="skills-category" 
+    :style="{ '--base-d': baseDelay + 's' }"
+  >
     <div class="category-header">
       <div class="header-icon"></div>
       <h3>{{ title }}</h3>
@@ -21,7 +28,7 @@ const getIconColor = (index) => {
         v-for="(skill, index) in skills" 
         :key="skill.name" 
         class="skill-item"
-        :style="{ '--d': (index * 0.1) + 's' }"
+        :style="{ '--d': (baseDelay + index * 0.15) + 's' }"
       >
         <div class="icon-wrapper" :style="{ '--glow': getIconColor(index) }">
           <span class="skill-icon">{{ skill.icon }}</span>
@@ -78,6 +85,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 2rem;
+  perspective: 1000px;
 }
 
 .skill-item {
@@ -85,15 +93,27 @@ h3 {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  transition: all 0.3s ease;
-  animation: skillReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  opacity: 1; /* Fallback visibility */
+}
+
+:global(.section) .skill-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+:global(.section.visible) .skill-item {
+  animation: revealSkill 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: var(--d);
 }
 
-@keyframes skillReveal {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes revealSkill {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+
 
 .icon-wrapper {
   width: 60px;
@@ -106,10 +126,11 @@ h3 {
   border: 1px solid var(--glass-border);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  transform-style: preserve-3d;
 }
 
 .skill-item:hover .icon-wrapper {
-  transform: translateY(-5px) rotate(5deg);
+  transform: translateY(-5px) rotateY(10deg) rotateX(10deg);
   border-color: var(--glow);
   box-shadow: 0 10px 20px -5px var(--glow);
   background: rgba(255, 255, 255, 0.05);
@@ -118,16 +139,24 @@ h3 {
 .skill-icon {
   font-size: 1.8rem;
   filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-icon {
+  transform: translateZ(20px);
 }
 
 .skill-name {
   font-size: 0.9rem;
   color: var(--text-muted);
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .skill-item:hover .skill-name {
   color: #fff;
+  transform: scale(1.1);
 }
 </style>
+
 
