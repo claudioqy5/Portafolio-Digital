@@ -332,6 +332,26 @@ nav a:hover::after {
         cursor: auto !important;
     }
 
+    /* Navbar Mobile Fix */
+    .navbar {
+        min-width: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        transform: none;
+        border-radius: 0;
+        border: none;
+        padding: 1rem 1.5rem;
+        background: rgba(10, 12, 16, 0.95);
+    }
+
+    .navbar.scrolled {
+        top: 0;
+        min-width: 100%;
+        padding: 1rem 1.5rem;
+        background: rgba(10, 12, 16, 0.98);
+    }
+
     .section-title {
         font-size: 2.5rem;
     }
@@ -344,16 +364,18 @@ nav a:hover::after {
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 100%;
+        right: -120%;
+        /* Hidden off-screen */
+        width: 100vw;
         height: 100vh;
         background: rgba(10, 12, 16, 0.98);
         backdrop-filter: blur(20px);
         justify-content: center;
         align-items: center;
-        transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: -1;
+        padding-top: 4rem;
         margin: 0;
-        z-index: 999;
     }
 
     nav.active {
@@ -362,7 +384,34 @@ nav a:hover::after {
 
     nav a {
         margin: 1.5rem 0;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+    }
+
+    /* Responsive About Section */
+    .section-about {
+        justify-content: center;
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+        min-height: auto;
+    }
+
+    .identity-card {
+        height: auto;
+        min-height: 350px;
+        /* Responsive height */
+        margin-bottom: 1rem;
+    }
+
+    .minimal-title {
+        margin-bottom: 2rem !important;
+    }
+}
+
+/* Ensure Grid Stacks on Tablet/Mobile */
+@media (max-width: 968px) {
+    .identity-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
     }
 }
 
@@ -395,4 +444,131 @@ nav a:hover::after {
 
 .navbar.menu-open .menu-toggle .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Background Animation */
+/* Background Animation */
+.section-about {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Distribute space */
+    padding-top: 8rem;
+    /* Add top padding for title breathing room */
+    padding-bottom: 2rem;
+}
+
+/* Main Container Widened */
+.container {
+    max-width: 1400px;
+    /* Increased from 1200px */
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+/* Background Image & Transition */
+.section-background-anim {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0.15;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Entry Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ... existing identity-card styles ... */
+
+.identity-card {
+    background: rgba(10, 12, 16, 0.4);
+    /* Slight glass tint for visibility */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: 20px;
+    /* Softer corners like image */
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    /* Ultra smooth */
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    /* Fixed height for substantial size */
+    justify-content: flex-end;
+    /* Text at bottom */
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    overflow: hidden;
+    /* Hide overflowing text */
+}
+
+/* Initially hide paragraph */
+.identity-card p {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.identity-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+/* ... existing code ... */
+
+/* Reveal paragraph on hover */
+.identity-card:hover p {
+    max-height: 150px;
+    /* Allow enough space for text */
+    opacity: 1;
+    margin-top: 1rem;
+    transition-delay: 0.1s;
+    /* Slight delay for text reveal */
+}
+
+/* Focus Effect Logic */
+.identity-grid:hover .identity-card {
+    transform: scale(0.9);
+    opacity: 0.5;
+    filter: blur(2px);
+    /* Optional focus effect */
+}
+
+.identity-card:hover {
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.15) translateY(-10px) !important;
+    /* Override parent hover */
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: 10;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.identity-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.identity-card:nth-child(3) {
+    animation-delay: 0.5s;
 }

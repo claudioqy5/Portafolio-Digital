@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import SkillCard from './components/SkillCard.vue'
 import ProjectCard from './components/ProjectCard.vue'
 import CustomCursor from './components/CustomCursor.vue'
@@ -12,6 +12,10 @@ import imgProjectColegioX from './assets/proyectoCOLEGIOX.JPG'
 import imgPormedioFacil from './assets/proyectoPROMEDIOFACIL.JPG'
 
 import imgProfile from './assets/mifotocara.JPG'
+import imgExcelVba from './assets/excelvbaColegio.png'
+import imgNinoSano from './assets/niñosano.JPG'
+import imgN8n from './assets/n8n.JPG'
+
 
 const isLoading = ref(true)
 const isMenuOpen = ref(false)
@@ -140,6 +144,25 @@ const timelineEvents = [
   }
 ]
 
+// Background Logic for About Me Section
+const activeIdentity = ref(0)
+const heroBackground = ref('')
+
+const identityBackgrounds = {
+  0: '', // Default: Transparent to show blue/dark background
+  1: imgNinoSano,
+  2: imgExcelVba,
+  3: imgN8n
+}
+
+const updateBackground = (id) => {
+  activeIdentity.value = id
+}
+
+const currentAboutBg = computed(() => {
+  return identityBackgrounds[activeIdentity.value] || identityBackgrounds[0]
+})
+
 const projects = [
   {
     title: 'Catering y Eventos Erick°a',
@@ -216,6 +239,12 @@ onMounted(() => {
     isScrolled.value = window.scrollY > 50
   })
 })
+
+const scrollToTop = (e) => {
+  e.preventDefault()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+  closeMenu()
+}
 </script>
 
 <template>
@@ -233,7 +262,7 @@ onMounted(() => {
     ></div>
 
     <header class="navbar" :class="{ 'menu-open': isMenuOpen, 'scrolled': isScrolled }">
-      <a href="#hero" class="logo" @click="closeMenu">CFQY</a>
+      <a href="#" class="logo" @click="scrollToTop">CFQY</a>
       
       <button class="menu-toggle" @click="toggleMenu" :aria-label="isMenuOpen ? 'Cerrar menú' : 'Abrir menú'">
         <span class="bar"></span>
@@ -242,7 +271,7 @@ onMounted(() => {
       </button>
 
       <nav :class="{ 'active': isMenuOpen }">
-        <a href="#hero" @click="closeMenu">Inicio</a>
+        <a href="#" @click="scrollToTop">Inicio</a>
         <a href="#about" @click="closeMenu">Sobre Mí</a>
         <a href="#timeline" @click="closeMenu">Trayectoria</a>
         <a href="#skills" @click="closeMenu">Habilidades</a>
@@ -311,75 +340,46 @@ onMounted(() => {
               <div class="bio-section-text">
                 <div class="cyber-header">
                   
-                  <h2 id="about" class="minimal-title">Sobre Mí</h2>
+                  <h2 id="about" class="minimal-title">Sobre<br>Mí</h2>
                 </div>
-                <div class="intro-text">
-                  <p>Soy <strong>Claudio</strong>, un <strong>Ingeniero Informático</strong> apasionado por transformar líneas de código en experiencias digitales de alto impacto. Mi enfoque fusiona la <strong>lógica administrativa</strong> con la creatividad del desarrollo para construir soluciones eficientes, limpias y escalables.</p>
-                  <p>No solo escribo código; diseño sistemas que optimizan procesos y potencian el futuro tecnológico.</p>
-                </div>
-              </div>
-
-              <!-- Core Animation Card -->
-              <div class="bento-card visual-card">
-                <div class="card-glass"></div>
-                <div class="core-system-mini">
-                  <div class="core-orbit"></div>
-                  <div class="core-center">
-                    <div class="core-glow"></div>
-                    <div class="core-icon">⚛️</div>
+                <div class="identity-grid">
+                  <div 
+                    class="identity-card"
+                    @mouseenter="updateBackground(1)"
+                    @mouseleave="updateBackground(0)"
+                  >
+                    <span class="id-number">01</span>
+                    <h3 class="id-title">¿Quién soy?</h3>
+                    <p><strong>Ingeniero Informático</strong> en formación, actualmente desarrollo aplicaciones web y sistemas a medida, combinando análisis, diseño y programación para crear soluciones claras, eficientes y escalables.</p>
                   </div>
-                  <div class="core-label-mini">SYSTEM_ONLINE</div>
+                  
+                  <div 
+                    class="identity-card"
+                    @mouseenter="updateBackground(2)"
+                    @mouseleave="updateBackground(0)"
+                  >
+                    <span class="id-number">02</span>
+                    <h3 class="id-title">¿Dónde estaba?</h3>
+                    <p>He laborado y desarrollado soluciones digitales tanto para instituciones privadas como instituciones públicas, aplicando buenas prácticas de desarrollo de software y gestión administrativa.</p>
+                  </div>
+
+                  <div 
+                    class="identity-card"
+                    @mouseenter="updateBackground(3)"
+                    @mouseleave="updateBackground(0)"
+                  >
+                    <span class="id-number">03</span>
+                    <h3 class="id-title">¿A donde voy?</h3>
+                    <p>Mi objetivo es seguir creciendo como ingeniero informático y participar en proyectos reales donde la tecnología aporte valor tangible y soluciones bien pensadas para el futuro.</p>
+                  </div>
                 </div>
               </div>
-
-              <!-- Status Card -->
-              <div class="bento-card status-card">
-                <div class="card-glass"></div>
-                <div class="status-indicator">
-                  <div class="pulse-dot"></div>
-                  <span>Disponible para Proyectos</span>
-                </div>
-                <p class="status-detail">Enfocado en IA & Desarrollo Fullstack</p>
-              </div>
-
-              <!-- Feature: Performance -->
-              <div class="bento-card feature-card">
-                <div class="card-glass"></div>
-                <div class="feature-icon">⚡</div>
-                <div class="feature-info">
-                  <h4>Rendimiento</h4>
-                  <p>Optimización extrema</p>
-                </div>
-              </div>
-
-              <!-- Feature: Quality -->
-              <div class="bento-card feature-card">
-                <div class="card-glass"></div>
-                <div class="feature-icon">💎</div>
-                <div class="feature-info">
-                  <h4>Calidad</h4>
-                  <p>Código sólido</p>
-                </div>
-              </div>
-
-              <!-- Feature: Scalability -->
-              <div class="bento-card feature-card">
-                <div class="card-glass"></div>
-                <div class="feature-icon">🌐</div>
-                <div class="feature-info">
-                  <h4>Escalabilidad</h4>
-                  <p>Visión modular</p>
-                </div>
-              </div>
-
-              <!-- Location Card -->
-              <div class="bento-card location-card">
-                <div class="card-glass"></div>
-                <div class="location-wrapper">
-                  <span class="loc-icon">📍</span>
-                  <span class="loc-text">Lima, Perú</span>
-                </div>
-                <div class="time-stamp">UTC-5</div>
+              
+              <!-- Background Animation -->
+              <div 
+                class="section-background-anim"
+                :style="{ backgroundImage: `url(${currentAboutBg})` }"
+              >
               </div>
             </div>
           </div>
@@ -855,7 +855,7 @@ onMounted(() => {
 /* New Bento About Styles */
 .about-bento-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto;
   gap: 1.5rem;
   max-width: 1200px;
@@ -914,7 +914,7 @@ onMounted(() => {
 }
 
 .bio-section-text {
-  grid-column: span 2;
+  grid-column: span 3;
   grid-row: span 2;
   display: flex;
   flex-direction: column;
@@ -925,13 +925,61 @@ onMounted(() => {
   box-shadow: none;
 }
 
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; /* Reduced gap = wider cards */
+  width: 100%;
+  margin-top: auto; /* Push to bottom if flex container allows */
+  padding-bottom: 2rem;
+}
+
+/* Removed .identity-card styles here to use style.css */
+
+.id-number {
+  font-family: monospace;
+  color: var(--primary);
+  opacity: 0.6;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.id-title {
+  font-size: 2.5rem;
+  font-weight: 200; /* Thinner */
+  color: #fff;
+  margin-bottom: 1.2rem;
+  letter-spacing: -1px; /* Tighter for minimalist look */
+}
+
+.identity-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  text-align: left;
+}
+
+@media (max-width: 968px) {
+  .identity-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .bio-section-text {
+    grid-column: span 1;
+  }
+}
+
+
 .minimal-title {
-  font-size: clamp(3.5rem, 5vw, 5rem);
-  font-weight: 300;
-  margin-bottom: 2rem;
+  font-size: clamp(3.5rem, 10vw, 40rem);
+  font-weight: 200; /* Thin font */
+  margin-bottom: 9%;
   color: #fff;
   line-height: 1.1;
   letter-spacing: -2px;
+  scroll-margin-top: 150px; /* Adjust for fixed header */
 }
 
 .bio-section-text .intro-text p {
