@@ -33,11 +33,26 @@ html {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+    font-weight: 300;
+    /* Minimalist light weight */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    /* Ensure headers are also minimal/thin */
+    letter-spacing: -0.02em;
+    /* Tighter tracking for modern look */
 }
 
 /* Noise Texture Overlay */
@@ -83,7 +98,8 @@ body::before {
 
 .logo {
     font-size: 1.4rem;
-    font-weight: 800;
+    font-weight: 400;
+    /* Lighter weight for minimalist look */
     letter-spacing: 3px;
     color: #fff;
     text-transform: uppercase;
@@ -103,7 +119,8 @@ nav a {
     color: #fff;
     text-decoration: none;
     margin: 0 1.2rem;
-    font-weight: 600;
+    font-weight: 300;
+    /* Thinner nav links */
     font-size: 0.8rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -184,7 +201,8 @@ nav a:hover::after {
 .hero-content h1 {
     font-size: clamp(3rem, 10vw, 6rem);
     line-height: 1.1;
-    font-weight: 700;
+    font-weight: 300;
+    /* Minimalist headline */
     margin-bottom: 1.5rem;
     letter-spacing: -2px;
 }
@@ -221,7 +239,8 @@ nav a:hover::after {
 .btn {
     padding: 1rem 2.5rem;
     border-radius: 12px;
-    font-weight: 600;
+    font-weight: 400;
+    /* Lighter buttons */
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border: none;
     display: inline-block;
@@ -282,6 +301,7 @@ nav a:hover::after {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+    padding: 0;
 }
 
 .section-title,
@@ -292,10 +312,12 @@ nav a:hover::after {
 
 .section-title {
     font-size: 3.5rem;
-    font-weight: 700;
+    font-weight: 300;
+    /* Minimalist section titles */
     margin-bottom: 5rem;
     letter-spacing: -1px;
-    text-align: center;
+    text-align: center;    
+    padding-top: 5rem;
 }
 
 /* Custom Scrollbar */
@@ -449,7 +471,9 @@ nav a:hover::after {
 /* Background Animation */
 /* Background Animation */
 .section-about {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 0;
     overflow: hidden;
     min-height: 100vh;
     display: flex;
@@ -461,12 +485,21 @@ nav a:hover::after {
     padding-bottom: 2rem;
 }
 
+.section-timeline {
+    position: relative;
+    z-index: 1;
+    background-color: var(--bg-dark);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+    /* subtle shadow to show depth */
+}
+
 /* Main Container Widened */
 .container {
     max-width: 1400px;
+    padding: 0 !important;
     /* Increased from 1200px */
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 5rem;
     width: 100%;
 }
 
@@ -505,14 +538,14 @@ nav a:hover::after {
     /* Slight glass tint for visibility */
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 20px;
     /* Softer corners like image */
     transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     /* Ultra smooth */
     display: flex;
     flex-direction: column;
-    height: 300px;
+
     /* Fixed height for substantial size */
     justify-content: flex-end;
     /* Text at bottom */
@@ -540,18 +573,10 @@ nav a:hover::after {
 .identity-card:hover p {
     max-height: 150px;
     /* Allow enough space for text */
-    opacity: 1;
+    opacity: 0.1;
     margin-top: 1rem;
     transition-delay: 0.1s;
     /* Slight delay for text reveal */
-}
-
-/* Focus Effect Logic */
-.identity-grid:hover .identity-card {
-    transform: scale(0.9);
-    opacity: 0.5;
-    filter: blur(2px);
-    /* Optional focus effect */
 }
 
 .identity-card:hover {

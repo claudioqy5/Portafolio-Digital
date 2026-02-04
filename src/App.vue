@@ -10,11 +10,12 @@ import AnimatedBackground from './components/AnimatedBackground.vue'
 import imgProjectEricka from './assets/proyectoERICKA.JPG'
 import imgProjectColegioX from './assets/proyectoCOLEGIOX.JPG'
 import imgPormedioFacil from './assets/proyectoPROMEDIOFACIL.JPG'
+import imgHalcon from './assets/halconmilenario.png'
+import imgHalconDown from './assets/halconmilenario1.png'
+import imgDeathStar from './assets/estrellamuerte.png'
 
 import imgProfile from './assets/mifotocara.JPG'
-import imgExcelVba from './assets/excelvbaColegio.png'
-import imgNinoSano from './assets/niñosano.JPG'
-import imgN8n from './assets/n8n.JPG'
+import imgfondo2 from './assets/fondo2.jpg'
 
 
 const isLoading = ref(true)
@@ -144,15 +145,16 @@ const timelineEvents = [
   }
 ]
 
+const timelineProgress = ref(0)
+const isScrollingDown = ref(true)
+let lastScrollY = 0
+
 // Background Logic for About Me Section
 const activeIdentity = ref(0)
 const heroBackground = ref('')
 
 const identityBackgrounds = {
-  0: '', // Default: Transparent to show blue/dark background
-  1: imgNinoSano,
-  2: imgExcelVba,
-  3: imgN8n
+  0: imgfondo2, // Default: Transparent to show blue/dark background 
 }
 
 const updateBackground = (id) => {
@@ -236,7 +238,22 @@ onMounted(() => {
 
   // Header scroll detection
   window.addEventListener('scroll', () => {
-    isScrolled.value = window.scrollY > 50
+    const currentScroll = window.scrollY
+    isScrollingDown.value = currentScroll > lastScrollY
+    lastScrollY = currentScroll
+    
+    isScrolled.value = currentScroll > 50
+
+    // Update timeline progress
+    const timelineSection = document.querySelector('.section-timeline')
+    if (timelineSection) {
+      const rect = timelineSection.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const totalDist = timelineSection.offsetHeight + windowHeight
+      const currentPos = windowHeight - rect.top
+      const progress = Math.max(0, Math.min(1, currentPos / totalDist))
+      timelineProgress.value = progress
+    }
   })
 })
 
@@ -245,6 +262,15 @@ const scrollToTop = (e) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
   closeMenu()
 }
+
+const snowflakes = Array.from({ length: 200 }).map(() => ({
+  left: Math.random() * 100 + '%',
+  top: Math.random() * 100 + '%', // Random start height
+  animationDelay: Math.random() * 5 + 's',
+  animationDuration: (Math.random() * 10 + 10) + 's', // Slower drift
+  opacity: Math.random() * 0.8 + 0.2,
+  size: Math.random() * 3 + 1 + 'px' // Smaller stars
+}))
 </script>
 
 <template>
@@ -338,39 +364,49 @@ const scrollToTop = (e) => {
             <div class="about-bento-grid">
               <!-- Bio Card -->
               <div class="bio-section-text">
-                <div class="cyber-header">
-                  
-                  <h2 id="about" class="minimal-title">Sobre<br>Mí</h2>
-                </div>
-                <div class="identity-grid">
-                  <div 
-                    class="identity-card"
-                    @mouseenter="updateBackground(1)"
-                    @mouseleave="updateBackground(0)"
-                  >
-                    <span class="id-number">01</span>
-                    <h3 class="id-title">¿Quién soy?</h3>
-                    <p><strong>Ingeniero Informático</strong> en formación, actualmente desarrollo aplicaciones web y sistemas a medida, combinando análisis, diseño y programación para crear soluciones claras, eficientes y escalables.</p>
+                <div class="vertical-title-container marquee-vertical-wrapper">
+                  <div class="marquee-vertical-content">
+                     <div class="mv-row">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
+                     <div class="mv-row highlight">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
+                     <div class="mv-row">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
                   </div>
+                  <div class="marquee-vertical-content" aria-hidden="true">
+                     <div class="mv-row">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
+                     <div class="mv-row highlight">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
+                     <div class="mv-row">SOBRE MI SOBRE MI SOBRE MI SOBRE MI</div>
+                  </div>                  
+                </div>
+                
+                <div class="identity-grid minimal-grid" id="about">                  
                   
                   <div 
-                    class="identity-card"
+                    class="minimal-item"
                     @mouseenter="updateBackground(2)"
                     @mouseleave="updateBackground(0)"
                   >
-                    <span class="id-number">02</span>
-                    <h3 class="id-title">¿Dónde estaba?</h3>
-                    <p>He laborado y desarrollado soluciones digitales tanto para instituciones privadas como instituciones públicas, aplicando buenas prácticas de desarrollo de software y gestión administrativa.</p>
+                    <span class="min-number">02</span>
+                    <h3 class="min-title">Ayer</h3>
+                    <p class="min-text">He laborado y desarrollado soluciones digitales tanto para instituciones privadas como instituciones públicas, aplicando buenas prácticas de desarrollo de software y gestión administrativa.</p>
                   </div>
 
                   <div 
-                    class="identity-card"
+                    class="minimal-item"
+                    @mouseenter="updateBackground(1)"
+                    @mouseleave="updateBackground(0)"
+                  >
+                    <span class="min-number">01</span>
+                    <h3 class="min-title">Hoy</h3>
+                    <p class="min-text"><strong>Ingeniero Informático</strong> en formación, actualmente desarrollo aplicaciones web y sistemas a medida, combinando análisis, diseño y programación para crear soluciones claras, eficientes y escalables.</p>
+                  </div>
+
+                  <div 
+                    class="minimal-item"
                     @mouseenter="updateBackground(3)"
                     @mouseleave="updateBackground(0)"
                   >
-                    <span class="id-number">03</span>
-                    <h3 class="id-title">¿A donde voy?</h3>
-                    <p>Mi objetivo es seguir creciendo como ingeniero informático y participar en proyectos reales donde la tecnología aporte valor tangible y soluciones bien pensadas para el futuro.</p>
+                    <span class="min-number">03</span>
+                    <h3 class="min-title">Mañana</h3>
+                    <p class="min-text">Mi objetivo es seguir creciendo como ingeniero informático, enfocándome en IA y automatización de procesos de negocio con n8n para crear soluciones con impacto real.</p>
                   </div>
                 </div>
               </div>
@@ -386,6 +422,70 @@ const scrollToTop = (e) => {
         </section>
 
         <section class="section section-timeline">
+          <div class="snow-container" aria-hidden="true">
+            <div class="snow-sticky-view">
+              <div 
+                v-for="(flake, i) in snowflakes" 
+                :key="i" 
+                class="star"
+                :style="{
+                  left: flake.left,
+                  top: flake.top,
+                  animationDelay: flake.animationDelay,
+                  animationDuration: flake.animationDuration,
+                  opacity: flake.opacity,
+                  width: flake.size,
+                  height: flake.size
+                }"
+              ></div>
+              <!-- Millennium Falcon 3D Container (Left) -->
+              <div 
+                class="halcon-trajectory-wrapper"
+                :style="{
+                  transform: isScrollingDown 
+                    ? `translate3d(${5 + timelineProgress * 145}%, ${-10 + timelineProgress * 130}vh, 0) perspective(1000px) rotateX(20deg) rotateY(10deg) rotateZ(-45deg) scale(${1.0 - timelineProgress * 0.8})` 
+                    : `translate3d(${5 + timelineProgress * 80}%, ${-10 + timelineProgress * 130}vh, 0) perspective(1000px) rotateX(10deg) rotateY(0deg) rotateZ(-30deg) scale(${0.3 + timelineProgress * 0.7})`,
+                  opacity: 1
+                }"
+              >
+                <!-- Scrolling DOWN: Top-Left -> Bottom-Right using halconmilenario1 (nose down) -->
+                <img 
+                  v-if="isScrollingDown"
+                  :src="imgHalconDown" 
+                  class="halcon-ship" 
+                  alt="Millennium Falcon Diving"
+                />
+                 <!-- Scrolling UP: Bottom -> Top-Left using halconmilenario (nose up) -->
+                <img 
+                  v-else
+                  :src="imgHalcon" 
+                  class="halcon-ship" 
+                  alt="Millennium Falcon Rising"
+                />
+              </div>
+
+              <!-- Death Star Container (Right) -->
+              <div 
+                class="death-star-wrapper"
+                :style="{
+                  transform: `
+                    translate3d(${10 - timelineProgress * 15}%, ${-10 + timelineProgress * 20}px, -100px)
+                    perspective(1000px)
+                    rotateY(${-10 + timelineProgress * 15}deg)
+                    rotateX(${5 - timelineProgress * 5}deg)
+                    scale(${0.8 + timelineProgress * 0.2})
+                  `,
+                  opacity: 0.8 + timelineProgress * 0.2
+                }"
+              >
+                 <img 
+                  :src="imgDeathStar" 
+                  class="death-star" 
+                  alt="Death Star"
+                />
+              </div>
+            </div>
+          </div>
           <div class="container">
             <h2 id="timeline" class="section-title">Mi Trayectoria</h2>
             <div class="timeline">
@@ -451,7 +551,7 @@ const scrollToTop = (e) => {
 
         <section class="section section-projects">
           <div class="container">
-            <h2 id="projects" class="section-title">Ingeniería en Acción</h2>
+            <h2 id="projects" class="section-title">Proyectos mas recientes</h2>
             <div class="projects-grid">
               <ProjectCard 
                 v-for="proj in projects" 
@@ -917,24 +1017,47 @@ const scrollToTop = (e) => {
   grid-column: span 3;
   grid-row: span 2;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 4rem;
+  justify-content: space-between;
   padding: 0;
   background: none;
   border: none;
   box-shadow: none;
 }
 
-.identity-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem; /* Reduced gap = wider cards */
-  width: 100%;
-  margin-top: auto; /* Push to bottom if flex container allows */
-  padding-bottom: 2rem;
+.vertical-title-container {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
 }
 
-/* Removed .identity-card styles here to use style.css */
+.vertical-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 8rem;
+  font-weight: 900;
+  color: transparent;
+  scroll-margin-top: 150px;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+  margin: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.identity-grid {
+  display: flex;
+  
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 0;
+  padding-top: 50%;
+  text-align: center;
+}
 
 .id-number {
   font-family: monospace;
@@ -947,10 +1070,10 @@ const scrollToTop = (e) => {
 
 .id-title {
   font-size: 2.5rem;
-  font-weight: 200; /* Thinner */
+  font-weight: 200;
   color: #fff;
   margin-bottom: 1.2rem;
-  letter-spacing: -1px; /* Tighter for minimalist look */
+  letter-spacing: -1px;
 }
 
 .identity-card p {
@@ -961,25 +1084,30 @@ const scrollToTop = (e) => {
 }
 
 @media (max-width: 968px) {
-  .identity-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .bio-section-text {
+    flex-direction: column;
+    gap: 2rem;
   }
   
-  .bio-section-text {
-    grid-column: span 1;
+  .vertical-title-container {
+    width: 100%;
+    padding: 0;
   }
-}
+  
+  .vertical-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 3.5rem;
+    -webkit-text-stroke: 0;
+    color: #fff;
+    text-align: left;
+    margin-bottom: 1rem;
+  }
 
-
-.minimal-title {
-  font-size: clamp(3.5rem, 10vw, 40rem);
-  font-weight: 200; /* Thin font */
-  margin-bottom: 9%;
-  color: #fff;
-  line-height: 1.1;
-  letter-spacing: -2px;
-  scroll-margin-top: 150px; /* Adjust for fixed header */
+  .identity-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }
 
 .bio-section-text .intro-text p {
@@ -1596,5 +1724,219 @@ const scrollToTop = (e) => {
     font-size: 2.5rem;
   }
 }
-</style>
 
+
+
+
+
+/* Vertical Marquee Styles */
+.marquee-vertical-wrapper {
+  position: relative;
+  height: 120vh; /* Make it very tall to cover the section */
+  max-height: 1000px; /* Safety cap */
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  /* mask-image removed to keep text always visible */
+  width: auto; /* Let it grow */
+  min-width: 300px;
+  flex-shrink: 0;
+}
+
+.marquee-vertical-content {
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start; /* Align left */
+  animation: scrollVertical 30s linear infinite; /* Slower for smoothness */
+  gap: 1.5rem;
+}
+
+.mv-row {
+  font-size: 6rem; /* Increased size as requested */
+  font-weight: 400; /* Minimalist weight */
+  line-height: 1;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.15); /* Slightly more visible */
+  /* font-family: 'Impact', sans-serif; Removed to use default font */
+  writing-mode: vertical-rl; 
+  text-orientation: sideways; 
+  transform: rotate(180deg); 
+  margin-bottom: 0;
+}
+
+.mv-row.highlight {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes scrollVertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+
+/* Adjust layout to accommodate the wider title block if necessary */
+.bio-section-text {
+  gap: 2rem;
+}
+
+/* Minimalist About Section */
+.identity-grid {
+  display: flex !important;
+  flex-direction: column !important; /* Stack vertically for minimalist list feel, or row? User said "eliminar cards". List is cleaner. */
+  gap: 4rem !important;
+  width: 100% !important;
+  margin-top: 0;
+  padding-top: 1%;
+  text-align: left !important;
+  /* position: absolute;  Maybe place it over the background? No, keep flow */
+  position: relative;
+  z-index: 10;
+  padding-left: 20%; /* Offset from the marquee wall */
+  padding-top: 10%; 
+}
+
+.minimal-item {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+.minimal-item:hover {
+  transform: translateX(10px);
+}
+
+
+
+.min-number {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #666; /* Very subtle */
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.min-title {
+  font-size: 2.5rem;
+  font-weight: 300; /* Thin font */
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: 15px;
+}
+
+.min-text {
+  font-size: 1rem;
+  color: #999;
+  line-height: 1.6;
+  max-width: 600px;
+  font-weight: 300;
+}
+
+@media (max-width: 968px) {
+  .identity-grid {
+    padding-left: 0;
+  }
+}
+
+/* Snow Animation */
+.snow-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  /* overflow: hidden; Removed to allow sticky child to work within its rect */
+}
+
+.snow-sticky-view {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden; /* Crop flakes here */
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+  animation: starMove linear infinite;
+}
+
+@keyframes starMove {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(-100px) translateY(50px); } /* Slow diagonal drift */
+}
+
+/* Ensure timeline content is above snow */
+.section-timeline .container {
+  position: relative;
+  z-index: 2;
+}
+
+.halcon-trajectory-wrapper {
+  position: absolute;
+  top: 10%;
+  left: 5%; /* Moved to Left */
+  width: 350px; 
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+  transform-style: preserve-3d; 
+}
+
+/* Death Star Styles */
+.death-star-wrapper {
+  position: absolute;
+  top: 15%;
+  right: -5%; 
+  width: 500px; 
+  height: auto;
+  z-index: 5; 
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+.death-star {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5)) brightness(1);
+  animation: deathStarHover 8s ease-in-out infinite alternate;
+}
+
+@keyframes deathStarHover {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-30px) rotate(2deg); }
+}
+
+.halcon-ship {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Continuous hovering animation */
+  animation: shipHover 4s ease-in-out infinite; 
+  filter: drop-shadow(0 0 15px rgba(100, 200, 255, 0.4)); /* Engine glow hint */
+}
+
+@keyframes shipHover {
+  0% { transform: translateY(0) rotateZ(0deg); }
+  50% { transform: translateY(-20px) rotateZ(2deg); }
+  100% { transform: translateY(0) rotateZ(0deg); }
+}
+
+@media (max-width: 768px) {
+  .halcon-trajectory-wrapper {
+    width: 200px;
+    right: -20%;
+  }
+}
+</style>
