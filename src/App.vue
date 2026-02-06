@@ -1765,7 +1765,6 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
   position: relative;
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
   backdrop-filter: blur(10px);
 }
 
@@ -1819,7 +1818,7 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 }
 
 .category-card-minimal:hover {
-  transform: translateY(-12px) rotateX(5deg) scale(1.05);
+  transform: translateY(-8px) scale(1.02);
   border-color: var(--primary);
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.3),

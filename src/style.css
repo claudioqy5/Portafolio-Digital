@@ -732,7 +732,9 @@ nav a:hover::after {
 /* Hide original grid */
 .projects-grid {
     display: none;
-}/* Contact Section - Galaxy / Hyperspace Effect */
+}
+
+/* Contact Section - Galaxy / Hyperspace Effect */
 .section-contact {
     background-color: #000 !important;
     position: relative;
@@ -809,6 +811,7 @@ nav a:hover::after {
     border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 60px rgba(100, 100, 255, 0.2);
 }
+
 /* Scroll Reveal Animation Classes */
 .scroll-reveal {
     opacity: 0;
@@ -817,7 +820,8 @@ nav a:hover::after {
     will-change: opacity, transform;
 }
 
-.scroll-reveal.visible {
+.scroll-reveal.visible,
+.section.visible .scroll-reveal {
     opacity: 1;
     transform: translateY(0);
 }
@@ -842,6 +846,7 @@ nav a:hover::after {
 .scroll-reveal:nth-child(5) {
     transition-delay: 0.5s;
 }
+
 /* Hero Roles Styling */
 .hero-roles-container {
     display: flex;
@@ -940,5 +945,174 @@ nav a:hover::after {
         padding-left: 1rem;
         border-bottom-color: var(--primary);
         padding-bottom: 0.8rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVE ENHANCEMENTS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* 1. HERO SECTION */
+    .hero-content {
+        flex-direction: column-reverse;
+        /* Image top, text bottom usually, or visual preference. Let's keep text top? No, usually image on top is better on mobile or vice versa. Default is row. */
+        text-align: center;
+        padding-top: 6rem;
+        /* Space for fixed navbar */
+    }
+
+    .hero-text {
+        align-items: center;
+        /* Center flex items */
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+        /* Smaller title */
+    }
+
+    .hero-roles-container {
+        align-items: center;
+        margin: 2rem 0;
+    }
+
+    .role-pill {
+        font-size: 1.1rem;
+        /* Smaller pills */
+        padding-left: 1rem;
+        padding-right: 1rem;
+        border-left: none;
+        border-bottom: 2px solid var(--glass-border);
+        width: 100%;
+        /* Full width pill for easy tapping/reading */
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 8px;
+        padding: 0.8rem;
+    }
+
+    .cta-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        /* Full width buttons */
+        justify-content: center;
+    }
+
+    /* Reduce Hologram size or hide complex parts */
+    .hologram-container {
+        width: 280px;
+        height: 350px;
+        margin: 0 auto 2rem;
+    }
+
+    div.scanning-beam,
+    div.ring {
+        display: none;
+        /* Simplify animation for performance */
+    }
+
+    /* 2. ABOUT & TIMELINE */
+    .about-bento-grid {
+        grid-template-columns: 1fr;
+        /* Stack vertically */
+    }
+
+    .bio-section-text {
+        flex-direction: column;
+    }
+
+    .vertical-title-container {
+        display: none !important;
+        /* Hide vertical marquee on mobile, takes too much space */
+    }
+
+    .identity-grid {
+        padding-left: 0;
+        padding-top: 0;
+    }
+
+    /* Timeline 3D Elements - Hide or Static */
+    .halcon-trajectory-wrapper,
+    .death-star-wrapper {
+        opacity: 0.3;
+        /* Fade out but keep or hide completely */
+        transform: none !important;
+        /* Disable complicated 3D transforms */
+        position: fixed;
+        /* Keep fixed to background or absolute */
+        z-index: -1;
+    }
+
+    .halcon-ship,
+    .death-star {
+        width: 100px !important;
+        /* Smaller */
+    }
+
+    /* 3. SKILLS */
+    .stack-outline {
+        font-size: 3rem;
+        /* Force smaller size */
+    }
+
+    .stack-solid {
+        font-size: 1.2rem;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        /* Single column */
+        gap: 1.5rem;
+    }
+
+    /* 4. PROJECTS MARQUEE */
+    .marquee-card {
+        width: 85vw;
+        /* Almost full width card */
+        margin-right: 1rem;
+    }
+
+    .projects-marquee-content {
+        gap: 2rem;
+    }
+
+    /* 5. CONTACT */
+    .contact-card {
+        padding: 2rem 1.5rem;
+        margin: 2rem 0;
+        /* Less margin */
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .contact-info h2 {
+        font-size: 2rem;
+    }
+
+    /* General Spacing */
+    .section {
+        padding: 6rem 1rem;
+        /* Consistent padding */
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem;
     }
 }
