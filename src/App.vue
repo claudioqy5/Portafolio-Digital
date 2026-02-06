@@ -1,27 +1,48 @@
-<script setup>
+﻿<script setup>
+// ============================================
+// IMPORTS - Vue Core
+// ============================================
 import { onMounted, ref, computed } from 'vue'
+
+// ============================================
+// IMPORTS - Components
+// ============================================
 import SkillCard from './components/SkillCard.vue'
 import ProjectCard from './components/ProjectCard.vue'
 import CustomCursor from './components/CustomCursor.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import AnimatedHero from './components/AnimatedHero.vue'
-import AnimatedBackground from './components/AnimatedBackground.vue'
 
+
+// ============================================
+// IMPORTS - Assets
+// ============================================
 import imgProjectEricka from './assets/proyectoERICKA.JPG'
 import imgProjectColegioX from './assets/proyectoCOLEGIOX.JPG'
 import imgPormedioFacil from './assets/proyectoPROMEDIOFACIL.JPG'
 import imgHalcon from './assets/halconmilenario.png'
 import imgHalconDown from './assets/halconmilenario1.png'
 import imgDeathStar from './assets/estrellamuerte.png'
-
 import imgProfile from './assets/mifotocara.JPG'
 import imgfondo2 from './assets/fondo2.jpg'
+import imgFondoStack from './assets/fondostack.jpg'
+import imgNinosAly from './assets/niñosano.JPG'
+import n8n from './assets/n8n.JPG'
+import imgHelify from './assets/helifypage.JPG'
+import imgBatalla1 from './assets/batalla1.png'
+import imgBatalla2 from './assets/batalla2.png'
 
-
+// ============================================
+// STATE - UI Controls
+// ============================================
 const isLoading = ref(true)
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)
+const activeCategory = ref(null)
 
+// ============================================
+// METHODS - Navigation
+// ============================================
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
   document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
@@ -31,24 +52,28 @@ const closeMenu = () => {
   isMenuOpen.value = false
   document.body.style.overflow = ''
 }
+
+// ============================================
+// DATA - Skills Categories
+// ============================================
 const skillCategories = [
   {
     title: 'Frontend Development',
     skills: [
-      { name: 'Vue.js', icon: '🟢' },
-      { name: 'JavaScript / TypeScript', icon: '💛' },
-      { name: 'Angular', icon: '🛡️' },
-      { name: 'HTML5/CSS3', icon: '🎨' },
-      { name: 'Tailwind CSS', icon: '🌊' }
+      { name: 'Vue.js', icon: '◊' },
+      { name: 'JavaScript / TypeScript', icon: '{ }' },
+      { name: 'Angular', icon: '△' },
+      { name: 'HTML5/CSS3', icon: '<>' },
+      { name: 'Tailwind CSS', icon: '∿' }
     ]
   },
   {
     title: 'Backend & APIs',
     skills: [
-      { name: 'Node.js', icon: '🌳' },
-      { name: 'Python', icon: '🐍' },
-      { name: 'C# / .NET', icon: '🟣' },
-      { name: 'REST APIs', icon: '🔌' },
+      { name: 'Node.js', icon: '⬢' },
+      { name: 'Python', icon: '⌘' },
+      { name: 'C# / .NET', icon: '#' },
+      { name: 'REST APIs', icon: '⇄' },
       { name: 'FastAPI', icon: '⚡' },
       { name: 'AWS Lambda', icon: 'λ' }
     ]
@@ -56,25 +81,28 @@ const skillCategories = [
   {
     title: 'Databases',
     skills: [
-      { name: 'SQL Server', icon: '💾' },
-      { name: 'MySQL', icon: '🐬' },
-      { name: 'PostgreSQL', icon: '🐘' },
-      { name: 'DynamoDB', icon: '🍃' },
-      { name: 'MariaDB', icon: '🐹' },
-      { name: 'MongoDB', icon: '🌱' }
+      { name: 'SQL Server', icon: '▣' },
+      { name: 'MySQL', icon: '◉' },
+      { name: 'PostgreSQL', icon: '⬡' },
+      { name: 'DynamoDB', icon: '⬢' },
+      { name: 'MariaDB', icon: '◈' },
+      { name: 'MongoDB', icon: '⬣' }
     ]
   },
   {
     title: 'Otras Habilidades',
     skills: [
-      { name: 'Git/GitHub', icon: '🐙' },
-      { name: 'Google Workspace', icon: '🌐' },
-      { name: 'Cloud Computing', icon: '☁️' },
-      { name: 'Metodologías Ágiles', icon: '⚡' }
+      { name: 'Git/GitHub', icon: '⎇' },
+      { name: 'Google Workspace', icon: '◫' },
+      { name: 'Cloud Computing', icon: '☁' },
+      { name: 'Metodologías Ágiles', icon: '◬' }
     ]
   }
 ]
 
+// ============================================
+// STATE - Contact Form
+// ============================================
 const isSubmitting = ref(false)
 const formSubmitted = ref(false)
 const formData = ref({
@@ -83,6 +111,9 @@ const formData = ref({
   message: ''
 })
 
+// ============================================
+// METHODS - Contact Form
+// ============================================
 const handleFormSubmit = async () => {
   isSubmitting.value = true
   try {
@@ -114,6 +145,9 @@ const handleFormSubmit = async () => {
   }
 }
 
+// ============================================
+// DATA - Timeline Events
+// ============================================
 const timelineEvents = [
   {
     period: '2022 – Actualidad',
@@ -145,11 +179,16 @@ const timelineEvents = [
   }
 ]
 
+// ============================================
+// STATE - Timeline & Scroll
+// ============================================
 const timelineProgress = ref(0)
 const isScrollingDown = ref(true)
 let lastScrollY = 0
 
-// Background Logic for About Me Section
+// ============================================
+// STATE - About Section Background
+// ============================================
 const activeIdentity = ref(0)
 const heroBackground = ref('')
 
@@ -161,11 +200,69 @@ const updateBackground = (id) => {
   activeIdentity.value = id
 }
 
+// ============================================
+// STATE - Projects Background
+// ============================================
+const projectsProgress = ref(0) // 0 to 1
+
+const updateProjectsProgress = () => {
+  const section = document.querySelector('.section-projects')
+  if (section) {
+    const rect = section.getBoundingClientRect()
+    const windowHeight = window.innerHeight
+    const height = section.offsetHeight
+    
+    // Calculate progress based on how much of the section has been scrolled
+    // Start fading in when top of section is at top of viewport (0)
+    // Full fade in when scrolled partially through
+    const startOffset = windowHeight * 0.2 // Start slightly before
+    const progress = (windowHeight - rect.top - startOffset) / (height * 0.5) 
+    
+    projectsProgress.value = Math.max(0, Math.min(1, progress))
+  }
+}
+
 const currentAboutBg = computed(() => {
   return identityBackgrounds[activeIdentity.value] || identityBackgrounds[0]
 })
 
+// ============================================
+// DATA - Projects
+// ============================================
 const projects = [
+  {
+    title: 'Helify',
+    description: 'Web enfocada en crear soluciones digitales personalizadas. Nos especializamos en diseñar sitios web modernos y funcionales que potencian la presencia digital de los clientes, garantizando una experiencia de usuario optimizada y un diseño de alto impacto.',
+    image: imgHelify,
+    techStack: [
+      { name: 'Vue.js', level: 100 },
+      { name: 'UX/UI Design', level: 90 },
+      { name: 'Web Dev', level: 100 }
+    ],
+    link: 'https://helifysolucionesdigitales.vercel.app/'
+  },
+  {
+    title: 'Bot Refcon',
+    description: 'Bot de WhatsApp automatizado con n8n para la gestión de citas y recordatorios de pacientes. Integra la API de Meta Cloud para mensajería y Google Sheets para validar datos, reduciendo significativamente el ausentismo y la carga administrativa manual.',
+    image: n8n,
+    techStack: [
+      { name: 'n8n', level: 100 },
+      { name: 'Meta API', level: 90 },
+      { name: 'Google Sheets', level: 95 }
+    ],
+    link: 'https://refcon.minsa.gob.pe/refconv02/'
+  },
+  {
+    title: 'Niños-Sano',
+    description: 'Sistema integral de gestión de historias clínicas pediátricas. Desarrollado con una arquitectura moderna separando frontend y backend, permite el registro de pacientes, seguimiento de crecimiento, y generación de reportes en PDF y Excel para análisis de datos.',
+    image: imgNinosAly,
+    techStack: [
+      { name: 'FastAPI', level: 100 },
+      { name: 'Vue.js', level: 90 },
+      { name: 'Python', level: 95 }
+    ],
+    link: 'https://helifyferdigital.cloud/login'
+  },
   {
     title: 'Catering y Eventos Erick°a',
     description: 'Página web corporativa de catering y eventos que presenta de forma clara los servicios gastronómicos y de organización de eventos, con un diseño moderno orientado a promocionar la marca, generar confianza y facilitar el contacto con clientes.',
@@ -190,7 +287,7 @@ const projects = [
   },
   {
     title: 'Promedio FACIL',
-    description: 'Esta herramienta permite que los estudiantes puedan registrar sus notas, configurar los pesos de cada evaluación y calcular su promedio ponderado de manera precisa, además de proyectar cuánto necesitan obtener en futuras evaluaciones para alcanzar sus metas. Este informe detalla todo el proceso de desarrollo del proyecto, desde la definición del problema hasta la construcción, prueba y validación del sistema móvil.',
+    description: 'Esta herramienta permite que los estudiantes de la universidad Ricardo Palma puedan registrar sus notas y calcular su promedio ponderado segun malla curricular de manera precisa, además de proyectar cuánto necesitan obtener en futuras evaluaciones para alcanzar sus metas.',
     image: imgPormedioFacil,
     techStack: [
       { name: 'Android Studio', level: 80 },
@@ -200,14 +297,31 @@ const projects = [
   }
 ]
 
+// ============================================
+// STATE - Mouse Glow Effect
+// ============================================
 const glowX = ref(0)
 const glowY = ref(0)
+let glowTicking = false
 
+// ============================================
+// METHODS - Mouse Effects
+// ============================================
 const onMouseMove = (e) => {
-  glowX.value = e.clientX
-  glowY.value = e.clientY
+  // Throttle with requestAnimationFrame for better performance
+  if (!glowTicking) {
+    requestAnimationFrame(() => {
+      glowX.value = e.clientX
+      glowY.value = e.clientY
+      glowTicking = false
+    })
+    glowTicking = true
+  }
 }
 
+// ============================================
+// LIFECYCLE - Component Mounted
+// ============================================
 onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -228,6 +342,25 @@ onMounted(() => {
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       section.classList.add('visible')
     }
+  })
+
+  // Observe individual reveal items
+  const revealItems = document.querySelectorAll('.scroll-reveal')
+  const itemObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+        // Optional: unobserve after reveal if we only want it once
+        itemObserver.unobserve(entry.target)
+      }
+    })
+  }, {
+    threshold: 0.1,
+    rootMargin: '50px' 
+  })
+
+  revealItems.forEach(item => {
+    itemObserver.observe(item)
   })
 
   // Force reveal of active anchor section on load
@@ -254,16 +387,24 @@ onMounted(() => {
       const progress = Math.max(0, Math.min(1, currentPos / totalDist))
       timelineProgress.value = progress
     }
+    
+    updateProjectsProgress()
   })
 })
 
+// ============================================
+// METHODS - Scroll Utilities
+// ============================================
 const scrollToTop = (e) => {
   e.preventDefault()
   window.scrollTo({ top: 0, behavior: 'smooth' })
   closeMenu()
 }
 
-const snowflakes = Array.from({ length: 200 }).map(() => ({
+// ============================================
+// DATA - Snow Animation
+// ============================================
+const snowflakes = Array.from({ length: 50 }).map(() => ({
   left: Math.random() * 100 + '%',
   top: Math.random() * 100 + '%', // Random start height
   animationDelay: Math.random() * 5 + 's',
@@ -278,8 +419,7 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   
   <div v-show="!isLoading" class="app-container" @mousemove="onMouseMove">
     <div class="scroll-progress"></div>
-    <CustomCursor />
-    <AnimatedBackground />
+    <CustomCursor />   
     
     <!-- Dynamic Glow Background -->
     <div 
@@ -287,6 +427,9 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
       :style="{ transform: `translate3d(${glowX}px, ${glowY}px, 0)` }"
     ></div>
 
+    <!-- ============================================
+         HEADER - Navigation
+         ============================================ -->
     <header class="navbar" :class="{ 'menu-open': isMenuOpen, 'scrolled': isScrolled }">
       <a href="#" class="logo" @click="scrollToTop">CFQY</a>
       
@@ -307,6 +450,9 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
     </header>
 
     <main>
+      <!-- ============================================
+           SECTION - Hero
+           ============================================ -->
       <section id="hero" class="hero visible">
         <AnimatedHero />
         <div class="hero-content profile-layout">
@@ -322,9 +468,11 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
                 >{{ char }}</span>
               </span>
             </h1>
-            <p class="subtitle">
-  Ingeniero Informático en formación, enfocado en crear soluciones tecnológicas innovadoras y aplicar inteligencia artificial para resolver problemas reales.
-</p> 
+            <div class="hero-roles-container">
+              <div class="role-pill">Ingeniería Informática</div>
+              <div class="role-pill">FullStack Developer</div>
+              <div class="role-pill">Automatización de Procesos</div>
+            </div> 
 
             <div class="cta-group">
               <a href="https://github.com" target="_blank" class="btn btn-github">
@@ -358,6 +506,9 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
         </div>
       </section>
 
+      <!-- ============================================
+           SECTION - About Me (Sobre Mí)
+           ============================================ -->
       <div class="content-layer">
         <section class="section section-about">
           <div class="container">
@@ -377,31 +528,31 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
                   </div>                  
                 </div>
                 
-                <div class="identity-grid minimal-grid" id="about">                  
-                  
-                  <div 
-                    class="minimal-item"
-                    @mouseenter="updateBackground(2)"
+                  <div class="identity-grid minimal-grid" id="about">                  
+                    
+                    <div 
+                      class="minimal-item scroll-reveal"
+                      @mouseenter="updateBackground(2)"
                     @mouseleave="updateBackground(0)"
                   >
-                    <span class="min-number">02</span>
+                    <span class="min-number">01</span>
                     <h3 class="min-title">Ayer</h3>
                     <p class="min-text">He laborado y desarrollado soluciones digitales tanto para instituciones privadas como instituciones públicas, aplicando buenas prácticas de desarrollo de software y gestión administrativa.</p>
                   </div>
 
-                  <div 
-                    class="minimal-item"
-                    @mouseenter="updateBackground(1)"
+                    <div 
+                      class="minimal-item scroll-reveal"
+                      @mouseenter="updateBackground(1)"
                     @mouseleave="updateBackground(0)"
                   >
-                    <span class="min-number">01</span>
+                    <span class="min-number">02</span>
                     <h3 class="min-title">Hoy</h3>
                     <p class="min-text"><strong>Ingeniero Informático</strong> en formación, actualmente desarrollo aplicaciones web y sistemas a medida, combinando análisis, diseño y programación para crear soluciones claras, eficientes y escalables.</p>
                   </div>
 
-                  <div 
-                    class="minimal-item"
-                    @mouseenter="updateBackground(3)"
+                    <div 
+                      class="minimal-item scroll-reveal"
+                      @mouseenter="updateBackground(3)"
                     @mouseleave="updateBackground(0)"
                   >
                     <span class="min-number">03</span>
@@ -421,6 +572,9 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
           </div>
         </section>
 
+        <!-- ============================================
+             SECTION - Timeline (Mi Trayectoria)
+             ============================================ -->
         <section class="section section-timeline">
           <div class="snow-container" aria-hidden="true">
             <div class="snow-sticky-view">
@@ -487,12 +641,12 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
             </div>
           </div>
           <div class="container">
-            <h2 id="timeline" class="section-title">Mi Trayectoria</h2>
+            <h2 id="timeline" class="section-title scroll-reveal">Mi Trayectoria</h2>
             <div class="timeline">
               <div 
                 v-for="(event, index) in timelineEvents" 
                 :key="index" 
-                class="timeline-item"
+                class="timeline-item scroll-reveal"
               >
                 <div class="timeline-dot"></div>
                 <div class="timeline-date">{{ event.period }}</div>
@@ -518,53 +672,113 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
           </div>
         </section>
         
-        <section class="section section-skills">
-          <div class="container">
-            <h2 id="skills" class="section-title center">Stack Tecnológico</h2>
-            
-            <div class="minimal-skills-container">
-              <div 
-                v-for="(cat, index) in skillCategories" 
-                :key="cat.title"
-                class="skill-category-block"
-                :style="{ '--d': index * 0.1 + 's' }"
-              >
-                <div class="category-info">
-                  <h3 class="category-name">{{ cat.title }}</h3>
-                  <div class="category-underline"></div>
+        <section id="skills" class="section section-skills" :style="{ backgroundImage: `url(${imgFondoStack})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">
+            <div class="stack-title-wrapper">
+              <!-- STACK scrolling right -->
+              <div class="scroll-container scroll-right">
+                <div class="scroll-content">
+                  <h2 class="stack-outline">STACK STACK STACK STACK STACK STACK</h2>
                 </div>
-                
-                <div class="skills-chip-wrapper">
-                  <div 
-                    v-for="skill in cat.skills" 
-                    :key="skill.name" 
-                    class="skill-chip"
-                  >
-                    <span class="chip-icon">{{ skill.icon }}</span>
-                    <span class="chip-name">{{ skill.name }}</span>
-                  </div>
+                <div class="scroll-content" aria-hidden="true">
+                  <h2 class="stack-outline">STACK STACK STACK STACK STACK STACK</h2>
                 </div>
               </div>
+              
+              <!-- TECNOLÓGICO scrolling left -->
+              <div class="scroll-container scroll-left">
+                <div class="scroll-content">
+                  <h3 class="stack-solid">TECNOLÓGICO TECNOLÓGICO TECNOLÓGICO TECNOLÓGICO</h3>
+                </div>
+                <div class="scroll-content" aria-hidden="true">
+                  <h3 class="stack-solid">TECNOLÓGICO TECNOLÓGICO TECNOLÓGICO TECNOLÓGICO</h3>
+                </div>
+              </div>
+            </div>
+            
+            <div class="container">
+            <div class="skills-minimal-layout">
+              <!-- Minimalist Category Cards -->
+              <div class="categories-grid">
+                <div 
+                  v-for="(cat, index) in skillCategories" 
+                  :key="index"
+                  class="category-card-minimal scroll-reveal"
+                  :class="{ active: activeCategory === index }"
+                  @mouseenter="activeCategory = index"
+                >
+                  <span class="cat-icon">{{ cat.skills[0].icon }}</span>
+                  <h4 class="cat-name">{{ cat.title }}</h4>
+                </div>
+              </div>
+              
+              <!-- External Skills Display -->
+              <transition name="slide-fade" mode="out-in">
+                <div 
+                  v-if="activeCategory !== null" 
+                  :key="activeCategory"
+                  class="skills-external-panel"
+                >
+                  <h3 class="panel-title">{{ skillCategories[activeCategory].title }}</h3>
+                  <div class="skills-list-external">
+                    <div 
+                      v-for="skill in skillCategories[activeCategory].skills" 
+                      :key="skill.name"
+                      class="skill-item-external"
+                    >
+                      <span class="skill-dot"></span>
+                      <span class="skill-icon-ext">{{ skill.icon }}</span>
+                      <span class="skill-name-ext">{{ skill.name }}</span>
+                    </div>
+                  </div>
+                </div>
+              </transition>
             </div>
           </div>
         </section>
 
         <section class="section section-projects">
-          <div class="container">
-            <h2 id="projects" class="section-title">Proyectos mas recientes</h2>
-            <div class="projects-grid">
-              <ProjectCard 
-                v-for="proj in projects" 
-                :key="proj.title"
-                :project="proj"
-              />
+          <!-- Background Layers -->
+          <div class="project-bg-layer" :style="{ backgroundImage: `url(${imgBatalla1})` }"></div>
+          <div 
+            class="project-bg-layer layer-overlay" 
+            :style="{ 
+              backgroundImage: `url(${imgBatalla2})`, 
+              transform: `translateY(${100 - (projectsProgress * 100)}%)`,
+              opacity: 1
+            }"
+          ></div>
+          
+          <div class="container relative-z">
+            <h2 id="projects" class="section-title scroll-reveal">Proyectos mas recientes</h2>
+            
+            <div class="projects-marquee-container">
+              <div class="projects-marquee-content">
+                <!-- Original Set -->
+                <ProjectCard 
+                  v-for="proj in projects" 
+                  :key="proj.title"
+                  :project="proj"
+                  class="marquee-card"
+                />
+                <!-- Duplicate Set for infinite scroll -->
+                 <ProjectCard 
+                  v-for="proj in projects" 
+                  :key="proj.title + '-dup'"
+                  :project="proj"
+                  class="marquee-card"
+                  aria-hidden="true"
+                />
+              </div>
             </div>
           </div>
         </section>
 
+        <!-- ============================================
+             SECTION - Contact (Contacto)
+             ============================================ -->
         <section class="section section-contact">
           <div class="container">
-            <div id="contact" class="contact-card">
+            <div id="contact" class="contact-card scroll-reveal">
               <div class="contact-grid">
                 <div class="contact-info">
                   <span class="contact-badge">¿Listo para innovar?</span>
@@ -631,8 +845,8 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
 }
 
 @keyframes contentReveal {
-  from { opacity: 0; transform: scale(0.98); filter: blur(10px); }
-  to { opacity: 1; transform: scale(1); filter: blur(0); }
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
 .scroll-progress {
@@ -837,7 +1051,7 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   overflow: hidden;
   border: 2px solid rgba(212, 175, 55, 0.3);
   box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
-  z-index: 5;
+  z-index: 2;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1386,6 +1600,7 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
+  padding-bottom: 2rem;
 }
 
 .stat-card {
@@ -1424,93 +1639,353 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   .timeline-card { padding: 1.5rem; }
 }
 
-/* Minimal Skills Styles */
-.minimal-skills-container {
+/* Stack Title Styling - Inspired by reference */
+.stack-title-wrapper {
+  text-align: center;
+  margin-bottom: 4rem;
+  overflow: visible;
+  width: 100%;
+  position: relative;
+  min-height: 10rem;
+}
+
+/* Scroll containers */
+.scroll-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-right {
+  position: relative;
+}
+
+/* Allow TECNOLÓGICO to be visible with absolute positioning */
+.scroll-left {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.scroll-content {
+  display: flex;
+  white-space: nowrap;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/* Scroll right animation */
+.scroll-right .scroll-content {
+  animation-name: scrollRight;
+  animation-duration: 30s;
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Scroll left animation */
+.scroll-left .scroll-content {
+  animation-name: scrollLeft;
+  animation-duration: 25s;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.stack-outline {
+  font-size: clamp(5rem, 15vw, 12rem);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  margin: 0;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
+  text-stroke: 2px rgba(255, 255, 255, 0.3);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  text-transform: uppercase;
+  padding-right: 2rem;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.stack-solid {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin: 0;
+  color: #fff;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  text-transform: uppercase;
+  padding-right: 3rem;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* Skills Minimalist Layout */
+.skills-minimal-layout {
+  max-width: 1000px;
+  margin: 4rem auto;
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  max-width: 1000px;
-  margin: 4rem auto 0;
 }
 
-.skill-category-block {
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  perspective: 1000px;
+}
+
+.category-card-minimal {
+  background: rgba(7, 11, 20, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  backdrop-filter: blur(10px);
+}
+
+/* Animated gradient border */
+.category-card-minimal::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
+  background-size: 400% 400%;
+  border-radius: 20px;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--d);
+  transition: opacity 0.5s ease;
+  animation: gradientFlow 8s ease infinite;
+  z-index: -1;
 }
 
-.section.visible .skill-category-block {
+@keyframes gradientFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Inner glow effect */
+.category-card-minimal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 175, 55, 0.15) 0%,
+    transparent 50%
+  );
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-card-minimal:hover::before {
   opacity: 1;
-  transform: translateY(0);
 }
 
-.category-info {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.category-card-minimal:hover::after {
+  opacity: 1;
 }
 
-.category-name {
-  font-family: monospace;
+.category-card-minimal:hover {
+  transform: translateY(-12px) rotateX(5deg) scale(1.05);
+  border-color: var(--primary);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(212, 175, 55, 0.3),
+    inset 0 0 20px rgba(212, 175, 55, 0.1);
+  background: rgba(7, 11, 20, 0.6);
+}
+
+.category-card-minimal.active {
+  border-color: var(--primary);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.25),
+    0 0 40px rgba(212, 175, 55, 0.2);
+}
+
+.category-card-minimal.active::before {
+  opacity: 0.7;
+}
+
+.cat-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.8rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+}
+
+.category-card-minimal:hover .cat-icon {
+  transform: scale(1.2) translateY(-5px);
+  filter: none;
+  color: rgba(255, 255, 255, 0.95);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: scale(1.2) translateY(-5px); }
+  50% { transform: scale(1.2) translateY(-12px); }
+}
+
+.category-card-minimal.active .cat-icon {
+  transform: scale(1.15);
+  filter: none;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cat-name {
   font-size: 0.85rem;
-  letter-spacing: 4px;
-  color: var(--primary);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  opacity: 0.8;
 }
 
-.category-underline {
-  width: 40px;
-  height: 2px;
-  background: var(--primary);
-  border-radius: 2px;
-  box-shadow: 0 0 10px var(--primary);
+.category-card-minimal:hover .cat-name {
+  color: var(--primary);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
-.skills-chip-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+.category-card-minimal.active .cat-name {
+  color: var(--primary);
+}
+
+/* External Skills Panel */
+.skills-external-panel {
+  background: rgba(7, 11, 20, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(12px);
+  min-height: 200px;
+}
+
+.panel-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.skills-list-external {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
 
-.skill-chip {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  padding: 0.6rem 1.4rem;
-  border-radius: 12px;
+.skill-item-external {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: default;
+  padding: 0.6rem 0;
+  transition: all 0.2s ease;
 }
 
-.skill-chip:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--primary);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+.skill-item-external:hover {
+  transform: translateX(5px);
 }
 
-.chip-icon {
-  font-size: 1.2rem;
+.skill-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.chip-name {
-  font-size: 0.95rem;
-  font-weight: 500;
+.skill-icon-ext {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.skill-name-ext {
+  font-size: 0.9rem;
   color: var(--text-main);
-  letter-spacing: 0.5px;
+  font-weight: 400;
 }
 
-@media (max-width: 768px) {
-  .minimal-skills-container {
-    gap: 2.5rem;
+/* Slide Fade Transition */
+.slide-fade-enter-active {
+  transition: all 0.4s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   
+  .skills-list-external {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 568px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .category-card-minimal {
+    padding: 1.5rem 1rem;
+  }
+  
+  .skills-external-panel {
+    padding: 1.5rem;
+  }
+}  
   .skills-chip-wrapper {
     justify-content: center;
   }
@@ -1518,7 +1993,7 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   .category-info {
     align-items: center;
   }
-}
+
 
 .projects-grid {
   display: grid;
@@ -1532,6 +2007,7 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   border-radius: 48px;
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
+  margin: 10vh;
 }
 
 .contact-grid {
@@ -1691,9 +2167,9 @@ const snowflakes = Array.from({ length: 200 }).map(() => ({
   .contact-info h2 { font-size: 2.8rem; }
 }
 
-.footer {
-  padding: 6rem 5% 3rem;
+.footer {  
   border-top: 1px solid var(--glass-border);
+  padding: 2rem;
 }
 
 .footer-bottom {

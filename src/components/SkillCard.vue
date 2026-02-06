@@ -42,7 +42,7 @@ const getIconColor = (index) => {
 <style scoped>
 .skills-category {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
   padding: 2.5rem;
   border-radius: 32px;
   border: 1px solid var(--glass-border);

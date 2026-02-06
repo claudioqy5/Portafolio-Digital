@@ -5,19 +5,28 @@ const cursor = ref(null)
 const follower = ref(null)
 
 const isHovering = ref(false)
+let ticking = false
 
 const onMouseMove = (e) => {
   const { clientX: x, clientY: y } = e
   
-  if (cursor.value) {
-    cursor.value.style.transform = `translate3d(${x}px, ${y}px, 0)`
-  }
-  
-  if (follower.value) {
-    follower.value.style.transform = `translate3d(${x}px, ${y}px, 0)`
+  // Throttle with requestAnimationFrame for better performance
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      if (cursor.value) {
+        cursor.value.style.transform = `translate3d(${x}px, ${y}px, 0)`
+      }
+      
+      if (follower.value) {
+        follower.value.style.transform = `translate3d(${x}px, ${y}px, 0)`
+      }
+      
+      ticking = false
+    })
+    ticking = true
   }
 
-  // Check if hovering over interactive element
+  // Check if hovering over interactive element (outside RAF for responsiveness)
   const target = e.target
   isHovering.value = target.closest('a, button, .interactive, .hologram-container, .module-box, .project-card')
 }
@@ -50,6 +59,8 @@ onUnmounted(() => {
   transform: translate3d(0, 0, 0);
   transition: width 0.3s, height 0.3s, background-color 0.3s;
   box-shadow: 0 0 10px var(--primary);
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .custom-cursor.hover {
@@ -70,6 +81,8 @@ onUnmounted(() => {
   transform: translate3d(0, 0, 0);
   transition: transform 0.15s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
   opacity: 0.5;
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .cursor-follower.hover {

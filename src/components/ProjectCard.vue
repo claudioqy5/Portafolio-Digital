@@ -89,7 +89,7 @@ const handleMouseLeave = () => {
 <style scoped>
 .project-card-new {
   background: rgba(15, 20, 25, 0.7);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
   border-radius: 30px;
   border: 1px solid var(--glass-border);
   position: relative;
@@ -168,7 +168,7 @@ const handleMouseLeave = () => {
 
 .tech-badge {
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.4rem 1rem;
   border-radius: 50px;
@@ -228,6 +228,7 @@ const handleMouseLeave = () => {
   flex: 1;
   display: flex;
   flex-direction: column;
+  text-align: justify;
 }
 
 .details-header {

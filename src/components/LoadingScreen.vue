@@ -12,12 +12,12 @@ onMounted(() => {
       if (progress.value > 100) progress.value = 100
     } else {
       clearInterval(interval)
+      // Emit 'loaded' FIRST to show content
+      emit('loaded')
+      // Then start panel animation
       setTimeout(() => {
         isOut.value = true
-        setTimeout(() => {
-          emit('loaded')
-        }, 800)
-      }, 500)
+      }, 100)
     }
   }, 100)
 })

@@ -1,3 +1,6 @@
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
 :root {
     --primary: #d4af37;
     /* Metallic Gold */
@@ -13,13 +16,9 @@
     --glass-border: rgba(255, 255, 255, 0.15);
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    width: 100%;
-}
-
+/* ============================================
+   GLOBAL RESET & BASE STYLES
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -69,6 +68,26 @@ body::before {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='noiseFilter'%3e%3cturbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3e%3c/svg%3e");
 }
 
+/* ============================================
+   LAYOUT & CONTAINERS
+   ============================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.content-layer {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-dark);
+    margin-top: 0;
+    width: 100%;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -81,7 +100,7 @@ body::before {
     top: 2rem;
     z-index: 10001;
     background: rgba(10, 12, 16, 0.4);
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border);
     border-radius: 100px;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -150,92 +169,40 @@ nav a:hover::after {
     width: 100%;
 }
 
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 5%;
-    position: sticky;
-    top: 0;
-    z-index: 0;
-    overflow: hidden;
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 10px;
 }
 
-.content-layer {
-    position: relative;
-    z-index: 10;
-    background-color: var(--bg-dark);
-    margin-top: 0;
-    width: 100%;
+.menu-toggle .bar {
+    width: 30px;
+    height: 2px;
+    background: var(--primary);
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 2px;
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(1.1);
-    }
+.navbar.menu-open .menu-toggle .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.navbar.menu-open .menu-toggle .bar:nth-child(2) {
+    opacity: 0;
 }
 
-.hero-content {
-    animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    z-index: 1;
+.navbar.menu-open .menu-toggle .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
-.hero-content h1 {
-    font-size: clamp(3rem, 10vw, 6rem);
-    line-height: 1.1;
-    font-weight: 300;
-    /* Minimalist headline */
-    margin-bottom: 1.5rem;
-    letter-spacing: -2px;
-}
-
-.highlight {
-    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 5s linear infinite;
-}
-
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
-}
-
-.subtitle {
-    font-size: 1.4rem;
-    color: var(--text-muted);
-    max-width: 800px;
-    margin: 0 auto 3rem;
-    font-weight: 300;
-}
-
-.cta-group {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-}
-
+/* ============================================
+   BUTTONS
+   ============================================ */
 .btn {
     padding: 1rem 2.5rem;
     border-radius: 12px;
@@ -261,7 +228,7 @@ nav a:hover::after {
     background: var(--glass);
     color: white;
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .btn:hover {
@@ -273,11 +240,212 @@ nav a:hover::after {
     background: var(--accent);
 }
 
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+/* ============================================
+   SECTION: HERO
+   ============================================ */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5%;
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
 .hero-content {
+    z-index: 1;
     position: relative;
     z-index: 2;
 }
 
+.hero-content h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 1.1;
+    font-weight: 300;
+    /* Minimalist headline */
+    margin-bottom: 1.5rem;
+    letter-spacing: -2px;
+}
+
+.highlight {
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+.subtitle {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+}
+
+/* ============================================
+   SECTION: ABOUT (SOBRE MI)
+   ============================================ */
+.section-about {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Distribute space */
+    padding-top: 8rem;
+    /* Add top padding for title breathing room */
+    padding-bottom: 2rem;
+    background-color: var(--bg-dark);
+    width: 100%;
+}
+
+.section-background-anim {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0.15;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.identity-card {
+    background: rgba(10, 12, 16, 0.4);
+    /* Slight glass tint for visibility */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 20px;
+    /* Softer corners like image */
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    /* Ultra smooth */
+    display: flex;
+    flex-direction: column;
+
+    /* Fixed height for substantial size */
+    justify-content: flex-end;
+    /* Text at bottom */
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    overflow: hidden;
+    /* Hide overflowing text */
+}
+
+/* Initially hide paragraph */
+.identity-card p {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.identity-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.identity-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.identity-card:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+/* Reveal paragraph on hover */
+.identity-card:hover p {
+    max-height: 150px;
+    /* Allow enough space for text */
+    opacity: 0.1;
+    margin-top: 1rem;
+    transition-delay: 0.1s;
+    /* Slight delay for text reveal */
+}
+
+.identity-card:hover {
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.15) translateY(-10px) !important;
+    /* Override parent hover */
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: 10;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   SECTION: TIMELINE (MI TRAYECTORIA)
+   ============================================ */
+.section-timeline {
+    position: relative;
+    top: 0;
+    z-index: 51;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+    /* subtle shadow to show depth */
+}
+
+/* ============================================
+   SECTION: SKILLS (STACK TECNOLÓGICO)
+   ============================================ */
+.section-skills {
+    position: relative;
+    top: 0;
+    z-index: 16;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--bg-dark);
+}
+
+.section-skills::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 11, 20, 0.75);
+    z-index: -1;
+}
+
+/* ============================================
+   SECTION: PROJECTS
+   ============================================ */
+.section-projects {
+    position: relative;
+    z-index: 17;
+    background-color: var(--bg-dark);
+}
+
+/* ============================================
+   SECTION: CONTACT
+   ============================================ */
+.section-contact {
+    position: relative;
+    z-index: 18;
+    background-color: var(--bg-dark);
+}
+
+/* ============================================
+   GENERAL SECTION STYLES
+   ============================================ */
 .section {
     opacity: 1;
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -285,17 +453,6 @@ nav a:hover::after {
     position: relative;
     will-change: transform, opacity, filter;
 }
-
-/* Unique Initial States - Reduced intensity - Disabled for sticky effect visibility */
-.section-about {}
-
-.section-timeline {}
-
-.section-skills {}
-
-.section-projects {}
-
-.section-contact {}
 
 .section.visible {
     opacity: 1 !important;
@@ -316,11 +473,56 @@ nav a:hover::after {
     /* Minimalist section titles */
     margin-bottom: 5rem;
     letter-spacing: -1px;
-    text-align: center;    
+    text-align: center;
     padding-top: 5rem;
 }
 
-/* Custom Scrollbar */
+/* ============================================
+   ANIMATIONS & KEYFRAMES
+   ============================================ */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -338,6 +540,9 @@ nav a:hover::after {
     background: var(--primary);
 }
 
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
 @media (max-width: 1024px) {
     .navbar {
         min-width: 90%;
@@ -346,6 +551,13 @@ nav a:hover::after {
 
     .system-status {
         display: none;
+    }
+}
+
+@media (max-width: 968px) {
+    .identity-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
     }
 }
 
@@ -391,7 +603,7 @@ nav a:hover::after {
         width: 100vw;
         height: 100vh;
         background: rgba(10, 12, 16, 0.98);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(12px);
         justify-content: center;
         align-items: center;
         transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -429,171 +641,304 @@ nav a:hover::after {
     }
 }
 
-/* Ensure Grid Stacks on Tablet/Mobile */
-@media (max-width: 968px) {
-    .identity-grid {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
+/* Projects Section Backgrounds */
+.section-projects {
+    position: relative;
+    overflow: hidden;
+    background: transparent !important;
+    /* Ensure generic bg doesn't hide ours */
+}
+
+.project-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    /* Fixed attachment creates a parallax-like effect where image stays still */
+    background-attachment: fixed;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.1s linear;
+    /* Smooth transition for property changes */
+}
+
+.layer-overlay {
+    z-index: 1;
+    /* mix-blend-mode: multiply; Removed to let the silhouette stack clearly on top */
+    background-attachment: scroll;
+    /* Move with the transformed div */
+    background-position: center bottom;
+    will-change: transform;
+}
+
+.relative-z {
+    position: relative;
+    z-index: 5;
+}
+
+/* Projects Marquee Styles */
+.projects-marquee-container {
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    /* Break out of container to full width */
+    position: relative;
+    z-index: 10;
+    padding: 2rem 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.projects-marquee-content {
+    display: flex;
+    gap: 4rem;
+    /* Spacing between cards */
+    width: max-content;
+    animation: scrollLeft 60s linear infinite;
+    /* Reuse scrollLeft from App.vue or redefine if needed */
+}
+
+.projects-marquee-content:hover {
+    animation-play-state: paused;
+}
+
+/* Ensure smooth loop */
+@keyframes scrollProjects {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
     }
 }
 
-.menu-toggle {
+.projects-marquee-content {
+    animation-name: scrollProjects;
+    /* Use local definition to be safe */
+}
+
+.marquee-card {
+    flex: 0 0 auto;
+    width: 450px;
+    /* Specific width for cards in marquee */
+    max-width: 90vw;
+    /* responsiveness */
+}
+
+/* Hide original grid */
+.projects-grid {
     display: none;
-    flex-direction: column;
-    gap: 6px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1001;
-    padding: 10px;
-}
-
-.menu-toggle .bar {
-    width: 30px;
-    height: 2px;
-    background: var(--primary);
-    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 2px;
-}
-
-.navbar.menu-open .menu-toggle .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-
-.navbar.menu-open .menu-toggle .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.navbar.menu-open .menu-toggle .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-/* Background Animation */
-/* Background Animation */
-.section-about {
-    position: sticky;
-    top: 0;
-    z-index: 0;
-    overflow: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* Distribute space */
-    padding-top: 8rem;
-    /* Add top padding for title breathing room */
-    padding-bottom: 2rem;
-}
-
-.section-timeline {
+}/* Contact Section - Galaxy / Hyperspace Effect */
+.section-contact {
+    background-color: #000 !important;
     position: relative;
-    z-index: 1;
-    background-color: var(--bg-dark);
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-    /* subtle shadow to show depth */
+    overflow: hidden;
+    /* Ensure it has depth */
+    perspective: 1000px;
 }
 
-/* Main Container Widened */
-.container {
-    max-width: 1400px;
-    padding: 0 !important;
-    /* Increased from 1200px */
-    margin: 0 auto;
-    padding: 5rem;
-    width: 100%;
-}
-
-/* Background Image & Transition */
-.section-background-anim {
+/* Moving Starfield / Hyperspace Background */
+.section-contact::before {
+    content: "";
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    pointer-events: none;
-    opacity: 0.15;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: background-image 0.5s ease-in-out;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: galaxyMove 20s linear infinite;
+    opacity: 0.8;
+    z-index: 0;
 }
 
-/* Entry Animation */
-@keyframes fadeInUp {
+/* Subtle nebula glow */
+.section-contact::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(100, 50, 255, 0.1), transparent 70%),
+        radial-gradient(circle at 80% 20%, rgba(255, 50, 100, 0.05), transparent 50%);
+    z-index: 0;
+    animation: nebulaPulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes galaxyMove {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-200px);
+    }
+}
+
+@keyframes nebulaPulse {
+    0% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Ensure content is above background */
+.contact-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(10, 12, 16, 0.6);
+    /* Transparent dark card */
+    backdrop-filter: blur(15px);
+    /* Strong blur */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.contact-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 60px rgba(100, 100, 255, 0.2);
+}
+/* Scroll Reveal Animation Classes */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for better effect */
+.scroll-reveal:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.scroll-reveal:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.scroll-reveal:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.scroll-reveal:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.scroll-reveal:nth-child(5) {
+    transition-delay: 0.5s;
+}
+/* Hero Roles Styling */
+.hero-roles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+    margin-top: 1.5rem;
+}
+
+.role-pill {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    border-left: 2px solid var(--glass-border);
+    padding-left: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: fit-content;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    letter-spacing: 0.5px;
+}
+
+/* Elegant hover effect */
+.role-pill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    /* Start hidden */
+    height: 100%;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.role-pill:hover {
+    color: #fff;
+    padding-left: 2rem;
+    border-left-color: var(--primary);
+    border-left-width: 4px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.role-pill:hover::before {
+    width: 100%;
+}
+
+/* Staggered entry animation */
+.role-pill {
+    opacity: 0;
+    animation: slideInLeft 0.6s ease forwards;
+}
+
+.role-pill:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.role-pill:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.role-pill:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateX(-20px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
-/* ... existing identity-card styles ... */
+@media (max-width: 768px) {
+    .hero-roles-container {
+        align-items: center;
+        /* Center on mobile if hero is centered */
+    }
 
-.identity-card {
-    background: rgba(10, 12, 16, 0.4);
-    /* Slight glass tint for visibility */
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-    border-radius: 20px;
-    /* Softer corners like image */
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    /* Ultra smooth */
-    display: flex;
-    flex-direction: column;
+    .role-pill {
+        padding-left: 1rem;
+        border-left: none;
+        /* remove side border on center align */
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 0.5rem;
+        text-align: center;
+    }
 
-    /* Fixed height for substantial size */
-    justify-content: flex-end;
-    /* Text at bottom */
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-    overflow: hidden;
-    /* Hide overflowing text */
-}
-
-/* Initially hide paragraph */
-.identity-card p {
-    max-height: 0;
-    opacity: 0;
-    margin-top: 0;
-    overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.identity-card:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-/* ... existing code ... */
-
-/* Reveal paragraph on hover */
-.identity-card:hover p {
-    max-height: 150px;
-    /* Allow enough space for text */
-    opacity: 0.1;
-    margin-top: 1rem;
-    transition-delay: 0.1s;
-    /* Slight delay for text reveal */
-}
-
-.identity-card:hover {
-    border-color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.08);
-    transform: scale(1.15) translateY(-10px) !important;
-    /* Override parent hover */
-    opacity: 1 !important;
-    filter: none !important;
-    z-index: 10;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-}
-
-.identity-card:nth-child(2) {
-    animation-delay: 0.3s;
-}
-
-.identity-card:nth-child(3) {
-    animation-delay: 0.5s;
+    .role-pill:hover {
+        padding-left: 1rem;
+        border-bottom-color: var(--primary);
+        padding-bottom: 0.8rem;
+    }
 }
