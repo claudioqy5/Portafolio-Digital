@@ -973,28 +973,72 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 
 @media (max-width: 968px) {
   .hero {
-    height: 100vh;
-    padding: 120px 5% 60px;
+    min-height: 100vh; /* Allow growing if content is taller */
+    height: auto;
+    padding: 80px 5% 40px; /* Reduced padding */
+    display: flex;
+    align-items: center; /* Center vertically */
   }
   
   .profile-layout {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse; /* Image top, text bottom */
     text-align: center !important;
-    gap: 1rem;
+    gap: 1.5vh; /* Responsive gap */
+    width: 100%;
+    justify-content: center;
+    padding-top:0;
   }
   
   .hero-text {
-    flex: 1;
+    flex: 0 0 auto; /* Don't stretch needlessly */
+    width: 100%;
   }
   
   .hero-image {
-    flex: 1;
-    justify-content: center;
+    flex: 0 0 auto;
+    justify-content: center;    
+    height: 35vh; /* Limit image height relative to screen */
+    max-height: 300px;
+    min-height: 200px;
+  }
+
+  .hologram-container {
+      height: 100%; /* Fill container */
+      width: auto; /* Maintain aspect ratio */
+      aspect-ratio: 1/1;
+  }
+
+  /* Responsive Text Scaling */
+  .hero-text h1 {
+      font-size: clamp(1.8rem, 4vh, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+  }
+  
+  .hero-roles-container {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+  }
+  
+  .role-pill {
+      font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+      padding: 0.4rem 1rem;
   }
 
   .cta-group {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center; /* Center buttons */
+    width: 100%;
+    gap: 0.8rem;
+  }
+  
+  .btn {
+      width: 100%;
+      max-width: 300px; /* Prevent overly wide buttons */
+      padding: 0.8rem 1.5rem;
+      font-size: 0.9rem;
   }
 }
 
