@@ -425,6 +425,11 @@ nav a:hover::after {
     z-index: -1;
 }
 
+/* Base mobile skills style - hidden on desktop */
+.mobile-skills-detail {
+    display: none !important;
+}
+
 /* ============================================
    SECTION: PROJECTS
    ============================================ */
@@ -595,6 +600,7 @@ nav a:hover::after {
     }
 
     nav {
+        display: flex;
         flex-direction: column;
         position: fixed;
         top: 0;
@@ -957,59 +963,67 @@ nav a:hover::after {
     /* 1. HERO SECTION */
     .hero-content {
         flex-direction: column-reverse;
-        /* Image top, text bottom usually, or visual preference. Let's keep text top? No, usually image on top is better on mobile or vice versa. Default is row. */
         text-align: center;
-        padding-top: 6rem;
-        /* Space for fixed navbar */
+        padding-top: 5rem;
+        /* Reduced padding */
+        gap: 1rem;
+        /* Added explicit gap */
+        height: 100%;
+        /* Ensure it fills height but allows content flow */
+        justify-content: center;
+        /* Center content vertically */
     }
 
     .hero-text {
         align-items: center;
-        /* Center flex items */
     }
 
     .hero-text h1 {
-        font-size: 2.5rem;
-        /* Smaller title */
+        font-size: 2rem;
+        /* Slightly smaller */
+        margin-bottom: 0.5rem;
     }
 
     .hero-roles-container {
         align-items: center;
-        margin: 2rem 0;
+        margin: 1rem 0;
+        /* Reduced margin */
+        gap: 0.8rem;
     }
 
     .role-pill {
-        font-size: 1.1rem;
-        /* Smaller pills */
-        padding-left: 1rem;
-        padding-right: 1rem;
-        border-left: none;
-        border-bottom: 2px solid var(--glass-border);
-        width: 100%;
-        /* Full width pill for easy tapping/reading */
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 8px;
-        padding: 0.8rem;
+        font-size: 1rem;
+        padding: 0.6rem;
+        margin-bottom: 0;
     }
 
     .cta-group {
-        flex-direction: column;
+        flex-direction: row;
+        /* Change to row to save vertical space */
+        flex-wrap: wrap;
         width: 100%;
-        gap: 1rem;
+        gap: 0.8rem;
+        justify-content: center;
+        margin-top: 0.5rem;
     }
 
     .btn {
-        width: 100%;
-        /* Full width buttons */
-        justify-content: center;
+        width: auto;
+        /* Allow natural width */
+        padding: 0.8rem 1.5rem;
+        /* Smaller padding */
+        font-size: 0.9rem;
+        flex: 1 1 auto;
+        /* Grow to fill but allow wrapping */
+        min-width: 120px;
     }
 
-    /* Reduce Hologram size or hide complex parts */
+    /* Reduce Hologram size significantly to fit everything */
     .hologram-container {
-        width: 280px;
-        height: 350px;
-        margin: 0 auto 2rem;
+        width: 220px;
+        height: 220px;
+        /* Reduced from 350px */
+        margin: 0 auto 1rem;
     }
 
     div.scanning-beam,
@@ -1114,5 +1128,181 @@ nav a:hover::after {
 @media (max-width: 480px) {
     .hero-text h1 {
         font-size: 2rem;
+    }
+}
+
+/* ============================================
+   FINAL RESPONSIVE TWEAKS (100% COVERAGE)
+   ============================================ */
+
+/* 1. SMALL MOBILE (320px - 480px) */
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem !important;
+        /* Enforce smaller title */
+        letter-spacing: -1px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        /* Reduce huge section titles */
+        padding-top: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    /* Navbar logo smaller */
+    .logo {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+
+    /* Adjust burger menu position */
+    .menu-toggle {
+        scale: 0.8;
+    }
+}
+
+/* 2. TABLET / MOBILE LANDSCAPE (481px - 768px) */
+@media (max-width: 768px) {
+
+    /* General Layout */
+    .container {
+        padding: 0 1.5rem;
+    }
+
+    .section {
+        padding: 4rem 0;
+        /* Reduce vertical padding */
+    }
+
+    /* ABout Section - Ensure text doesn't overflow */
+    .identity-card p {
+        font-size: 0.95rem;
+    }
+
+    /* Timeline - tighter on mobile */
+    .timeline {
+        border-left: 2px solid rgba(255, 255, 255, 0.1);
+        margin-left: 1rem;
+        padding-left: 1.5rem !important;
+    }
+
+    .timeline-item::before {
+        /* Adjust dot position */
+        left: -22px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .timeline-card {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .timeline-date {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin-bottom: 0.5rem;
+        display: block;
+        text-align: left;
+        transform: none !important;
+    }
+
+    /* Skills - Grid */
+    .categories-grid {
+        grid-template-columns: 1fr;
+        /* Single column stack */
+        padding: 0 1rem;
+    }
+
+    /* Mobile Skills Accordion Style */
+    .mobile-skills-detail {
+        display: block !important;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 0.4s ease;
+    }
+
+    .mobile-skill-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        text-align: left;
+    }
+
+    .mobile-skill-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+    }
+
+    .skills-external-panel {
+        display: none !important;
+    }
+
+    .category-card-minimal.active {
+        background: rgba(212, 175, 55, 0.1);
+        border-color: var(--primary);
+    }
+
+    /* Projects - Marquee */
+    .marquee-card {
+        width: 85vw !important;
+        /* Force card width */
+        max-width: 400px;
+    }
+
+    /* Contact Form */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* 3. TABLET LANDSCAPE / SMALL LAPTOP (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    .hero-content {
+        flex-direction: row;
+        /* Keep row but tighter */
+        gap: 2rem;
+    }
+
+    .hologram-container {
+        width: 350px;
+        height: 400px;
+    }
+
+    .identity-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        /* 2 columns for tablets */
+    }
+
+    .identity-card:last-child {
+        grid-column: span 2;
+        /* Spanning last card */
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2x2 grid */
+    }
+
+    .timeline-date {
+        left: -160px;
+        /* Adjust date label position */
     }
 }

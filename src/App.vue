@@ -32,6 +32,7 @@ import imgHelify from './assets/helifypage.JPG'
 import imgBatalla1 from './assets/batalla1.png'
 import imgBatalla2 from './assets/batalla2.png'
 
+
 // ============================================
 // STATE - UI Controls
 // ============================================
@@ -708,6 +709,20 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
                 >
                   <span class="cat-icon">{{ cat.skills[0].icon }}</span>
                   <h4 class="cat-name">{{ cat.title }}</h4>
+                  
+                  <!-- Mobile Inline Details -->
+                  <div class="mobile-skills-detail" v-if="activeCategory === index">
+                    <div class="mobile-skill-list">
+                      <div 
+                        v-for="skill in cat.skills" 
+                        :key="skill.name" 
+                        class="mobile-skill-item"
+                      >
+                         <span class="skill-dot"></span>
+                         <span class="skill-name-ext">{{ skill.name }}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               
@@ -958,14 +973,14 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 
 @media (max-width: 968px) {
   .hero {
-    height: auto;
+    height: 100vh;
     padding: 120px 5% 60px;
   }
   
   .profile-layout {
     flex-direction: column-reverse;
     text-align: center !important;
-    gap: 3rem;
+    gap: 1rem;
   }
   
   .hero-text {
@@ -995,8 +1010,8 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 
 .hologram-container {
   position: relative;
-  width: 340px;
-  height: 340px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1265,7 +1280,8 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 
 .identity-grid {
   display: flex;
-  
+  position: relative;
+  z-index: 2;
   gap: 1.5rem;
   width: 100%;
   margin-top: 0;
@@ -1642,11 +1658,20 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 /* Stack Title Styling - Inspired by reference */
 .stack-title-wrapper {
   text-align: center;
+  margin-top: 4rem;
   margin-bottom: 4rem;
   overflow: visible;
   width: 100%;
   position: relative;
   min-height: 10rem;
+}
+
+@media (max-width: 768px) {
+  .stack-title-wrapper {
+    margin-top: 20%;
+    margin-bottom: -15% !important;
+    min-height: 8rem;
+  }
 }
 
 /* Scroll containers */
@@ -2161,7 +2186,7 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 }
 
 @media (max-width: 968px) {
-  .contact-card { padding: 3rem 2rem; }
+  .contact-card { padding: 3rem 2rem; margin:0; margin-bottom: 5vh; }
   .contact-grid { grid-template-columns: 1fr; gap: 4rem; }
   .contact-info h2 { font-size: 2.8rem; }
 }
@@ -2205,17 +2230,30 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 
 
 /* Vertical Marquee Styles */
+/* Vertical Marquee Styles */
 .marquee-vertical-wrapper {
-  position: relative;
-  height: 120vh; /* Make it very tall to cover the section */
-  max-height: 1000px; /* Safety cap */
+  position: relative; /* Default relative for desktop side-by-side */
+  height: 120vh;
+  max-height: 1000px;
   overflow: hidden;
   display: flex !important;
   flex-direction: column !important;
-  /* mask-image removed to keep text always visible */
-  width: auto; /* Let it grow */
+  width: auto;
   min-width: 300px;
   flex-shrink: 0;
+  opacity: 1; /* Full visibility on desktop */
+}
+
+@media (max-width: 968px) {
+  .marquee-vertical-wrapper {
+    position: absolute; /* Overlay on mobile */
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.3; /* Faded bg on mobile */
+  }
 }
 
 .marquee-vertical-content {
@@ -2260,14 +2298,16 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
   flex-direction: column !important; /* Stack vertically for minimalist list feel, or row? User said "eliminar cards". List is cleaner. */
   gap: 4rem !important;
   width: 100% !important;
+  height: 100vh !important;
   margin-top: 0;
   padding-top: 1%;
   text-align: left !important;
   /* position: absolute;  Maybe place it over the background? No, keep flow */
   position: relative;
   z-index: 10;
-  padding-left: 20%; /* Offset from the marquee wall */
+  padding-left: 15%; /* Offset from the marquee wall */
   padding-top: 10%; 
+  padding-bottom: 10%; 
 }
 
 .minimal-item {
@@ -2311,6 +2351,23 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
 @media (max-width: 968px) {
   .identity-grid {
     padding-left: 0;
+    height: auto !important;
+    
+  }
+
+  .minimal-item {
+    text-align: justify;
+    padding: 10%;
+    /*fondo blurreado*/
+    backdrop-filter: blur(10px);
+    /*borde redondeado*/
+    border-radius: 12px;
+    /*color de fondo*/
+    background-color: rgba(59, 47, 47, 0.1);    
+    /*borde de la card medio transparente*/
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /*efecto de sombra*/
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);    
   }
 }
 
