@@ -703,13 +703,12 @@ nav a:hover::after {
     gap: 4rem;
     /* Spacing between cards */
     width: max-content;
-    animation: scrollLeft 60s linear infinite;
-    /* Reuse scrollLeft from App.vue or redefine if needed */
+    /* Animation removed for JS control */
+    cursor: grab;
+    user-select: none;
 }
 
-.projects-marquee-content:hover {
-    animation-play-state: paused;
-}
+/* Hover effect handled by JS */
 
 /* Ensure smooth loop */
 @keyframes scrollProjects {
@@ -722,10 +721,7 @@ nav a:hover::after {
     }
 }
 
-.projects-marquee-content {
-    animation-name: scrollProjects;
-    /* Use local definition to be safe */
-}
+/* Animation name removed */
 
 .marquee-card {
     flex: 0 0 auto;

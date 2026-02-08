@@ -2,7 +2,7 @@
 // ============================================
 // IMPORTS - Vue Core
 // ============================================
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 
 // ============================================
 // IMPORTS - Components
@@ -321,6 +321,87 @@ const onMouseMove = (e) => {
 }
 
 // ============================================
+// STATE - Projects Marquee Logic
+// ============================================
+const marqueeRef = ref(null)
+const marqueeX = ref(0)
+const marqueeVelocity = ref(-0.5) 
+const isDraggingMarquee = ref(false)
+const lastClientX = ref(0)
+let animationFrameId = null
+const BASE_SPEED = -0.5
+
+const handleMarqueeStart = (e) => {
+  // Prevent default to stop image dragging or text selection
+  // But allow touch scrolling if needed? Actually for horizontal slider we want to prevent default horizontal scroll interactions if possible or handle them. 
+  // For mouse, preventDefault is good.
+  if (e.type.includes('mouse')) {
+    e.preventDefault()
+  }
+  
+  isDraggingMarquee.value = true
+  lastClientX.value = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX
+  marqueeVelocity.value = 0
+  // Optional: visually indicate grab
+  if(marqueeRef.value) marqueeRef.value.style.cursor = 'grabbing'
+}
+
+const handleMarqueeMove = (e) => {
+  if (!isDraggingMarquee.value) return
+  
+  const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX
+  const delta = clientX - lastClientX.value
+  lastClientX.value = clientX
+  
+  marqueeX.value += delta
+  marqueeVelocity.value = delta // Store movement as velocity
+}
+
+const handleMarqueeEnd = () => {
+  isDraggingMarquee.value = false
+  if(marqueeRef.value) marqueeRef.value.style.cursor = 'grab'
+}
+
+const updateMarquee = () => {
+  if (!marqueeRef.value) {
+    animationFrameId = requestAnimationFrame(updateMarquee)
+    return
+  }
+
+  if (!isDraggingMarquee.value) {
+    // Physics: Return to base speed with inertia
+    const diff = BASE_SPEED - marqueeVelocity.value
+    if (Math.abs(diff) > 0.01) {
+      marqueeVelocity.value += diff * 0.05
+    } else {
+      marqueeVelocity.value = BASE_SPEED
+    }
+    
+    marqueeX.value += marqueeVelocity.value
+  }
+
+  // Infinite Loop Logic
+  const fullWidth = marqueeRef.value.scrollWidth
+  // We assume duplication: total width = 2 * realWidth
+  const halfWidth = fullWidth / 2
+  
+  // If scrolled past the first set (moving left)
+  // Logic: normal scroll is negative. e.g. -10, -20.
+  // if x < -halfWidth (e.g. -1000), reset to 0.
+  if (marqueeX.value <= -halfWidth) {
+    marqueeX.value += halfWidth
+  } 
+  // If scrolled past start (moving right)
+  // if x > 0, reset to -halfWidth
+  else if (marqueeX.value > 0) {
+    marqueeX.value -= halfWidth
+  }
+
+  marqueeRef.value.style.transform = `translate3d(${marqueeX.value}px, 0, 0)`
+  animationFrameId = requestAnimationFrame(updateMarquee)
+}
+
+// ============================================
 // LIFECYCLE - Component Mounted
 // ============================================
 onMounted(() => {
@@ -391,6 +472,12 @@ onMounted(() => {
     
     updateProjectsProgress()
   })
+  // Start Marquee Loop
+  animationFrameId = requestAnimationFrame(updateMarquee)
+})
+
+onUnmounted(() => {
+  if (animationFrameId) cancelAnimationFrame(animationFrameId)
 })
 
 // ============================================
@@ -766,8 +853,16 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
           <div class="container relative-z">
             <h2 id="projects" class="section-title scroll-reveal">Proyectos mas recientes</h2>
             
-            <div class="projects-marquee-container">
-              <div class="projects-marquee-content">
+            <div class="projects-marquee-container"
+              @mousedown="handleMarqueeStart"
+              @mousemove="handleMarqueeMove"
+              @mouseup="handleMarqueeEnd"
+              @mouseleave="handleMarqueeEnd"
+              @touchstart="handleMarqueeStart"
+              @touchmove="handleMarqueeMove"
+              @touchend="handleMarqueeEnd"
+            >
+              <div class="projects-marquee-content" ref="marqueeRef">
                 <!-- Original Set -->
                 <ProjectCard 
                   v-for="proj in projects" 
