@@ -2453,12 +2453,27 @@ const snowflakes = Array.from({ length: 50 }).map(() => ({
   position: relative;
   padding-left: 2rem;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.4s ease;
+  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   cursor: default;
 }
 
-.minimal-item:hover {
-  transform: translateX(10px);
+/* Custom Left-Slide Reveal for Minimal Items */
+.minimal-item.scroll-reveal {
+  opacity: 0;
+  transform: translateX(-100px); /* Appear from left */
+  filter: blur(5px);
+}
+
+.minimal-item.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+.minimal-item:hover,
+.minimal-item.scroll-reveal.visible:hover {
+  transform: translateX(15px); /* Subtle slide right on hover */
+  border-left-color: var(--primary);
 }
 
 
